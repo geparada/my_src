@@ -1,0 +1,309 @@
+	#----------------------
+	# Gysling Lab
+	#----------------------
+
+
+
+
+###Motifs###
+
+
+
+
+#No tengo suficiente memoria para generar el bigbed solucion --> http://www.mail-archive.com/genome@lists.soe.ucsc.edu/msg00638.html
+
+#track SRS_minus
+#bigDataUrl SRS.bb
+#shortLabel Splicing Regularory Sequences
+#longLabel ESE, ESS and ISE Hexamers
+#type bigBed 12
+#itemRgb on
+
+track ESE_minus
+bigDataUrl ESE.minus.bw
+shortLabel ESE minus
+longLabel Exonic Splicing Enhancer minus strand
+type bigWig
+color 255,0,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track ESS_minus
+bigDataUrl ESS.minus.bw
+shortLabel ESS minus
+longLabel Exonic Splicing Silencer minus strand
+type bigWig
+color 0,255,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track ISE_minus
+bigDataUrl ISE.minus.bw
+shortLabel ISE minus
+longLabel Intronic Splicing Enhancer minus strand
+type bigWig
+color 0,0,255
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track ESE_plus
+bigDataUrl ESE.plus.bw
+shortLabel ESE plus
+longLabel Exonic Splicing Enhancer plus strand
+type bigWig
+color 255,0,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track ESS_plus
+bigDataUrl ESS.plus.bw
+shortLabel ESS plus
+longLabel Exonic Splicing Silencer plus strand
+type bigWig
+color 0,255,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track ISE_plus
+bigDataUrl ISE.plus.bw
+shortLabel ISE plus
+longLabel Intronic Splicing Enhancer plus strand
+type bigWig
+color 0,0,255
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+
+
+
+###Splice Junction Coverage###
+
+
+
+
+track TOTAL_SJ
+bigDataUrl TOTAL_SJ.bb
+shortLabel TOTAL High Confident Human Splice Junctions
+longLabel TOTAL Human Canonical and Non Canonical Splice Junctions
+type bigBed 12
+itemRgb on
+
+track 16_tissues_mixture
+bigDataUrl 16_tissues_mixture.bb
+shortLabel Mixture of 16 Human Tissues Splice Junctions
+longLabel Illumina bodymap 2.0 - Mixture of 16 Human Tissues Splice Junction
+type bigBed 12
+itemRgb on
+
+track GM12878
+bigDataUrl GM12878.bb
+shortLabel GM12878 Splice Junctions
+longLabel ENCODE - GM12878 Splice Junctions
+type bigBed 12
+itemRgb on
+
+track adipose
+bigDataUrl adipose.bb
+shortLabel Adipose Splice Junctions
+longLabel Illumina bodymap 2.0 - Adipose Splice Junctions
+type bigBed 12
+itemRgb on
+
+track adrenal
+bigDataUrl adrenal.bb
+shortLabel Adrenal Splice Junctions
+longLabel Illumina bodymap 2.0 - Adrenal Splice Junctions
+type bigBed 12
+itemRgb on
+
+track brain
+bigDataUrl brain.bb
+shortLabel Brain Splice Junctions
+longLabel Illumina bodymap 2.0 - Brain Splice Junctions
+type bigBed 12
+itemRgb on
+
+track breast
+bigDataUrl breast.bb
+shortLabel Breast Splice Junctions
+longLabel Illumina bodymap 2.0 - Breast Splice Junctions
+type bigBed 12
+itemRgb on
+
+track colon
+bigDataUrl colon.bb
+shortLabel Colon Splice Junctions
+longLabel Illumina bodymap 2.0 - Colon Splice Junctions
+type bigBed 12
+itemRgb on
+
+track heart
+bigDataUrl heart.bb
+shortLabel Heart Splice Junctions
+longLabel Illumina bodymap 2.0 - Heart Splice Junctions
+type bigBed 12
+itemRgb on
+
+track kidney
+bigDataUrl kidney.bb
+shortLabel Kidney Splice Junctions
+longLabel Illumina bodymap 2.0 - Kidney Splice Junctions
+type bigBed 12
+itemRgb on
+
+track liver
+bigDataUrl liver.bb
+shortLabel Liver Splice Junctions
+longLabel Illumina bodymap 2.0 - Liver Splice Junctions
+type bigBed 12
+itemRgb on
+
+track lung
+bigDataUrl lung.bb
+shortLabel Lung Splice Junctions
+longLabel Illumina bodymap 2.0 - Lung Splice Junctions
+type bigBed 12
+itemRgb on
+
+track lymph_node
+bigDataUrl lymph_node.bb
+shortLabel Lymph Node Splice Junctions
+longLabel Illumina bodymap 2.0 - Lymph Node Splice Junctions
+type bigBed 12
+itemRgb on
+
+track ovary
+bigDataUrl ovary.bb
+shortLabel Ovary Splice Junctions
+longLabel Illumina bodymap 2.0 - Ovary Splice Junctions
+type bigBed 12
+itemRgb on
+
+track prostate
+bigDataUrl prostate.bb
+shortLabel Prostate Splice Junctions
+longLabel Illumina bodymap 2.0 - Prostate Splice Junctions
+type bigBed 12
+itemRgb on
+
+track skeletal_muscle
+bigDataUrl skeletal_muscle.bb
+shortLabel Skeletal Muscle Splice Junctions
+longLabel Illumina bodymap 2.0 - Skeletal Muscle Splice Junctions
+type bigBed 12
+itemRgb on
+
+track testes
+bigDataUrl testes.bb
+shortLabel Testes Splice Junctions
+longLabel Illumina bodymap 2.0 - Testes Splice Junctions
+type bigBed 12
+itemRgb on
+
+track thyroid
+bigDataUrl thyroid.bb
+shortLabel Thyroid Splice Junctions
+longLabel Illumina bodymap 2.0 - Thyroid Splice Junctions
+type bigBed 12
+itemRgb on
+
+track white_blood_cells
+bigDataUrl white_blood_cells.bb
+shortLabel White Blood Cells Splice Junctions
+longLabel Illumina bodymap 2.0 - White Blood Cells Splice Junctions
+type bigBed 12
+itemRgb on
+
+
+
+#### Transcriptome Coverage ###
+
+
+
+
+
+track polyA_RNA_ALL_alignments.minus
+bigDataUrl polyA_RNA_ALL_alignments.minus.bw
+shortLabel polyA+ RNA minus
+longLabel Illumina Bodymap2.0 polyA+ RNA all alignments minus strand coverage
+type bigWig
+color 0,0,150
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track polyA_RNA_ALL_alignments.plus
+bigDataUrl polyA_RNA_ALL_alignments.plus.bw
+shortLabel polyA+ RNA plus
+longLabel Illumina Bodymap2.0 polyA+ RNA all alignments plus strand coverage
+type bigWig
+color 150,0,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track TOTAL_RNA_ALL_alignments.minus
+bigDataUrl TOTAL_RNA_ALL_alignments.minus.bw
+shortLabel TOTAL RNA minus
+longLabel Illumina Bodymap2.0 TOTAL RNA all alignments minus strand coverage
+type bigWig
+color 0,0,150
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track TOTAL_RNA_ALL_alignments.plus
+bigDataUrl TOTAL_RNA_ALL_alignments.plus.bw
+shortLabel TOTAL RNA plus
+longLabel Illumina Bodymap2.0 TOTAL RNA all alignments plus strand coverage
+type bigWig
+color 150,0,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track polyA_RNA_ONLY_UNIQ_alignments.minus
+bigDataUrl polyA_RNA_ONLY_UNIQ_alignments.minus.bw
+shortLabel polyA+ RNA minus uniq
+longLabel Illumina Bodymap2.0 polyA+ unique alignments minus strand coverage
+type bigWig
+color 0,0,150
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track polyA_RNA_ONLY_UNIQ_alignments.plus
+bigDataUrl polyA_RNA_ONLY_UNIQ_alignments.plus.bw
+shortLabel polyA+ RNA plus uniq
+longLabel Illumina Bodymap2.0 polyA+ RNA unique alignments plus strand coverage
+type bigWig
+color 150,0,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track TOTAL_RNA_ONLY_UNIQ_alignments.minus
+bigDataUrl TOTAL_RNA_ONLY_UNIQ_alignments.minus.bw
+shortLabel TOTAL RNA minus uniq
+longLabel Illumina Bodymap2.0 TOTAL RNA unique alignments minus strand coverage
+type bigWig
+color 0,0,150
+configurable on
+maxHeightPixels 30:30:30
+autoScale on
+
+track TOTAL_RNA_ONLY_UNIQ_alignments.plus
+bigDataUrl TOTAL_RNA_ONLY_UNIQ_alignments.plus.bw
+shortLabel TOTAL RNA plus uniq
+longLabel Illumina Bodymap2.0 TOTAL RNA unique alignments plus strand coverage
+type bigWig
+color 150,0,0
+configurable on
+maxHeightPixels 30:30:30
+autoScale on

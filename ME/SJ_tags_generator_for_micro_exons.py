@@ -1,0 +1,127 @@
+import sys
+import csv
+from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.Alphabet import generic_dna
+from random import randint, sample
+from operator import itemgetter
+from collections import defaultdict
+from operator import itemgetter
+
+
+Transcriptome = {}
+
+	
+def Transcriptometabulator(genecode_fasta):
+	
+	print >> sys.stderr, "Cargando a fasta en la ram ...",
+	
+	for record in SeqIO.parse(genecode_fasta, "fasta"):
+		id = str(record.id).split("|")[0]
+		Transcriptome[id] = record.seq
+		
+	print >> sys.stderr, "OK"
+
+
+def main(bed12):
+
+	n = 100
+
+	transcript_intron_info = defaultdict(list)
+
+	min_intron_lenght = 80
+
+	for row in csv.reader(open(bed12), delimiter = '\t'):
+		
+		try:
+		
+			qName = row[3]
+			seq = Transcriptome[qName]
+
+			qstarts = map (int, row[11].strip(",").split(","))                      
+			blocksizes = map(int, row[10].strip(",").split(","))
+
+			start = int(row[1])
+			strand = row[5]
+			bn = int(row[9])
+			chr = row[0]
+			qstart = 0
+
+			for q1, q2, b, b2 in zip(qstarts, qstarts[1:], blocksizes, blocksizes[1:]):
+				
+				qstart = qstart + b
+				tag_start = qstart - n
+				tag_end = qstart + n
+
+				#if tag_start <= 0:
+				#	print tag_start, qstart, tag_end, strand
+
+				istart = start + q1 + b
+				iend = start + q2
+				ilen = iend - istart
+				intron = row[0] + ":" +  str(istart) + row[5] + str(iend)	
+				intron = chr + ":" + str(istart) + strand + str(iend)
+				ilength = iend - istart
+
+				block_up = n
+				block_down = n
+				
+				if strand == '+' :                          #Para los que aliniean en la hebra +
+								   
+					if tag_start<0:                             #Precausiones generar buenos tag del primer y ultimo tag
+						tag_start = 0
+						block_up = qstart
+
+					if tag_end>len(seq):
+						tag_end=len(seq)
+						block_down = tag_end - qstart
+
+
+					tag = seq[tag_start:tag_end]
+					
+								  
+				if strand == '-' :
+				
+					if tag_end>len(seq):                 #Para los que alinian en la hebra - es todo al inverso
+						tag_end=len(seq)
+						block_up = tag_end - qstart
+
+					tag = seq[-tag_end:-tag_start]
+
+					if tag_start<=0:
+
+						tag = seq[-tag_end:]
+						block_down = qstart
+
+										 
+				if b > 25 and b2 > 25 and ilength >= min_intron_lenght:  # hay que agregarle el filtro de los micro exones!!
+
+					info = qName, tag, chr, istart, iend, strand, block_up, block_down, block_up + block_down
+					transcript_intron_info[intron].append(info)	
+
+
+		except KeyError:
+			pass
+
+
+	for i in transcript_intron_info.items():
+
+		infos = i[1]
+		intron = i[0]
+
+		qName, tag, chr, istart, iend, strand, block_up, block_down, sum_blocks = max(infos, key=itemgetter(8))
+
+
+		ID = ">" + intron + "|" + qName + "|" + str(block_up) + "_" + str(block_down)
+
+		print ID
+		print tag
+
+
+#>chr12:3701518+3702264|ENST00000562877.1|100_19
+#AGCTTTCTGTTTAGTTGTGTCAATCGCAGGCCACTCTGCTGAGCATCTTCTCCCAGGAGTACCAGAAACACATTAAAAGAACACATGCCAAACATCATACTTCGGAAGCAATTGAAAGT
+
+
+if __name__ == '__main__':
+	Transcriptometabulator(sys.argv[1])
+	main (sys.argv[2]) 		

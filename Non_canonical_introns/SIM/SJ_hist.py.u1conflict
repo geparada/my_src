@@ -1,0 +1,115 @@
+
+import sys
+import csv
+from collections import defaultdict
+from operator import itemgetter
+from Bio import SeqIO
+from Bio.Seq import Seq
+
+'''Uso: python SJ_hist.py SJ.fasta SJ.check '''
+
+SeqTable=[]
+
+def ReadsTabulator(fasta):
+
+        f = open(fasta)
+
+        for chrfa in SeqIO.parse(f, "fasta"):
+                table = str(chrfa.id)   #, chrfa.seq
+                SeqTable.append(table)
+
+        f.close()
+
+
+
+def hist_anchor ( SAM, SJ_check):
+	hist_OK = defaultdict(int)
+	hist_missed = defaultdict(int)
+	hist_nosjfound = defaultdict(int)
+	hist_TOTAL = defaultdict(int)
+
+
+	#sorted_OK = sorted(hist_OK.iteritems(), key=itemgetter(1))
+	#sorted_missed = sorted(hist_missed.iteritems(), key=itemgetter(1))
+	#sorted_nosjfound = sorted(hist_nosjfound.iteritems(), key=itemgetter(1))
+
+	reader1 = csv.reader(open(SJ_check), delimiter = ' ')
+	reader2 = csv.reader(open(SAM), delimiter = '\t')
+
+	for row in reader2:
+		try:
+			if int(row[1]) == 4:
+				print row
+		except ValueError:
+			pass
+
+
+
+	for read in SeqTable:
+		
+		anchors_totales = read.split('=')[2].split('<>')
+#		lenghts_totales = len(read[1])
+	
+		for a in anchors_totales:
+			hist_TOTAL[min(map(int, a.split('-')))] += 1 
+
+
+	for row in reader1:
+		status = row[4]
+		error_type = ",".join(row[5:8]).replace(",", " ")
+		
+
+		if status == 'OK':
+			hist_OK[row[3]] += 1
+
+		elif error_type != 'No SJ found':
+			hist_missed[row[3]] += 1
+
+		elif error_type == 'No SJ found': 			
+			hist_nosjfound[row[3]] += 1
+
+	print 'anchor','OK','Wrong','No SJ found', 'unmapped' 
+
+	for x in range(1,51):                   #column join
+		c1=0
+		c2=0
+		c3=0
+		
+		ct=0
+
+		for ok in hist_OK.items():
+			if int(ok[0]) == x:
+				c1 = ok[1]
+
+		for missed in hist_missed.items():
+			if int(missed[0]) == x:
+				c2 = missed[1]
+
+		for nosjfound in hist_nosjfound.items():
+			if int(nosjfound[0]) == x:
+				c3 = nosjfound[1]
+
+		for total in hist_TOTAL.items():
+			if int(total[0]) == x:
+				ct = total[1]
+				c4 = (ct-(c1+c2+c3))
+
+		#print x, c1, c2, c3, c4, ct
+					
+
+		print x, percent(c1, ct) , percent(c2, ct), percent(c3, ct), percent(c4, ct) 				
+					
+
+def percent (c, total):
+	return (100*float(c))/float(total)
+
+
+
+
+
+
+if __name__ == '__main__':
+	ReadsTabulator(sys.argv[1])
+	hist_anchor (sys.argv[2],sys.argv[3])
+		
+		
