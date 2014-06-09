@@ -190,9 +190,6 @@ def main(sam):
 
 						DRU, DRD = DR_counter(micro_exon_seq_up, micro_exon_seq_found, micro_exon_seq_down)
 
-						range_U = max(DRU, MERU)
-						range_D = max(DRD, MERD) 
-
 						I_pos_tag = start + q_block_ends[0]
 
 
