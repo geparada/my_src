@@ -7,6 +7,12 @@ from Bio.Alphabet import generic_dna
 from random import randint, sample
 from operator import itemgetter
 
+def percent (c, total):
+	try:
+		return (100*float(c))/float(total)
+	except ZeroDivisionError:
+		return 0
+
 def ascii_classifier(c): 
 
 	ascii = ord(c)
@@ -34,8 +40,10 @@ def cigar_parser(cigar):
 
 def main(sam):
 
-	micro_exons_found = defaultdict(set)
+	#micro_exons_found = defaultdict(set)
 	total_micro_exons = defaultdict(set)
+
+	micro_exons_found = set([])
 	
 	for row in csv.reader(open(sam), delimiter = '\t'):
 		if row[0][0] != "@":
@@ -93,6 +101,18 @@ def main(sam):
 				
 				block = 0
 				var_index = 0
+
+				intron, micro_exon_seq, micro_exon_start, micro_exon_end, intron_coverage, n_intron_coverage = read.split("_")
+
+				micro_exon_chr = intron.split(":")[0]
+
+
+				micro_exon_start = int(micro_exon_start)
+				micro_exon_end = int(micro_exon_end)
+
+				micro_exon = (micro_exon_chr, micro_exon_start, micro_exon_end)
+
+
 						
 				for var in cigar_list:
 					var_type = var[0]
@@ -116,21 +136,46 @@ def main(sam):
 					if var_index == len(cigar_list):
 						Exon_ends.append(Exon_starts[-1] + block)
 
-				if cigar.count("M")==3:
+				### Extracting exonic sequences ###
 
-					print row, cigar_list, Exon_starts
+				n = 0
+
+				for block in cigar_list:
+
+					block_type, block_len = block
+
+					if block_type == "M":
+
+						estart = start + n
+						eend = start + n + block_len
+
+						exon_found = (chr, estart, eend)
+
+						if micro_exon == exon_found:
+
+							micro_exons_found.add(micro_exon)
 
 
+							#print read, block_type, estart, eend, micro_exon_chr, micro_exon_start, micro_exon_end
 
-#								micro_exons_found[micro_exon_length].add(intron)
+					n += block_len
 
 
-	for i in range(25):
+	micro_exons_found_lengths = defaultdict(int)
 
-		number_micro_exons_found = len(micro_exons_found[i+1])
-		number_total_micro_exons = len(total_micro_exons[i+1])
 
-		print i+1,number_micro_exons_found, number_total_micro_exons, percent(number_micro_exons_found, number_total_micro_exons)
+	for i in micro_exons_found:
+
+		micro_exon_chr, micro_exon_start, micro_exon_end = i
+
+		micro_exons_found_lengths[micro_exon_end - micro_exon_start] += 1
+
+
+	for l in range(25):
+
+		print l+1, micro_exons_found_lengths[l+1], len(total_micro_exons[l+1]), percent(micro_exons_found_lengths[l+1], len(total_micro_exons[l+1]))
+		
+
 
 
 if __name__ == '__main__':
