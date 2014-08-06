@@ -6,6 +6,7 @@ from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
 from random import randint, sample
 from operator import itemgetter
+import re
 
 
 tags = {}
@@ -117,10 +118,7 @@ def main(sam):
 			start = int(row[3]) - 1             #Sam es 1 referenciado y es mas comodo trabajar en cordeneadas 0 refereciadas
 			cigar = row[5]
 			seq = row[9]
-#			intron, micro_exon_seq, micro_exon_iend, micro_exon_istart, intron_coverage = read.split("_")
 			intron, micro_exon_seq, micro_exon_iend, micro_exon_istart, intron_coverage, number_ID = read.split("_")  #en la nueva version de la simulacion se le agrego una variable
-
-
 
 
 			micro_exon_length = len(micro_exon_seq)
@@ -135,9 +133,6 @@ def main(sam):
 				if row[13].strip("AS:i:") == row[14].strip("XS:i:") and len(row)>=16 and "XA:Z:" in row[-1]:
 
 					c = 0
-
-					#print row
-					
 
 					for x in row[-1].strip("XA:Z:").split(";"):
 
@@ -160,16 +155,11 @@ def main(sam):
 
 				cigar_list = cigar_parser(cigar)
 
-
-
-
 				q_block_starts = [0]
 				q_block_ends = []			
 				q_block = 0
 				var_index = 0
 			
-				
-
 				for var in cigar_list:
 					var_type = var[0]
 					var_value = var[1]
@@ -192,9 +182,7 @@ def main(sam):
 					if var_index == len(cigar_list):
 						q_block_ends.append(q_block_starts[-1] + q_block)
 
-
 				if len(q_block_ends)==2: #deveria tener solo 2 q_blocks ya que deberia encontrar una insercion asocciada a un micro-exon
-
 
 
 					micro_exon_seq = micro_exon_seq.upper()
@@ -207,11 +195,9 @@ def main(sam):
 
 					if micro_exon_seq_up!="" and micro_exon_seq_down!="":  #Esto evita insersiones terminales
 
-
 						DRU, DRD = DR_counter(micro_exon_seq_up, micro_exon_seq_found, micro_exon_seq_down)
 
 						I_pos_tag = start + q_block_ends[0]
-
 
 						if  len(micro_exon_seq) == len(micro_exon_seq_found):
 
@@ -224,41 +210,89 @@ def main(sam):
 								reads_micro_exon.append(info)
 								reads_tags_intron[read].add(intron_tag)
 
-								#micro_exons_found[micro_exon_length].add(intron)
-
-#								if micro_exon_seq != micro_exon_seq_found:
-
-#									if micro_exon_seq != DR_corrected_micro_exon_seq_found:
-
-
-
-#										print micro_exon_seq, micro_exon_seq_found, I_pos_tag, DRU, DRD, anchor_up, DR_corrected_micro_exon_seq_found, q_block_ends[0], q_block_starts[1], micro_exon_seq == DR_corrected_micro_exon_seq_found, read.split("_")[0], tag.split("|")[0], read.split("_")[0] == tag.split("|")[0], row
-	
 
 	for i in reads_micro_exon:
 
 		read, flag, tag, start, cigar, seq, q_block_starts, q_block_ends, DRU, DRD,  micro_exon_seq_found, I_pos_tag, DRU, DRD, anchor_up, DR_corrected_micro_exon_seq_found = i
 		intron, micro_exon_seq, micro_exon_iend, micro_exon_istart, intron_coverage, number_ID = read.split("_")
 		intron_tag, transcript_ID, anchors = tag.split("|")
+		chr, istart, iend = re.findall(r"[\w']+", intron_tag)
+
+		number_of_host_introns = len(reads_tags_intron[read])
 
 		micro_exon_seq = micro_exon_seq.upper()
 		micro_exon_length = len(micro_exon_seq)
 
-		number_of_host_introns = len(reads_tags_intron[read])
+		correct_ME_start = int(micro_exon_iend)
+		correct_ME_end = correct_ME_start + micro_exon_length
+		
+		strand = "+"
 
-		intron_seq = Genome[chr][istart:iend]
+		if "-" in intron_tag:
+			strand = "-"
+			correct_ME_end = int(micro_exon_iend)
+			correct_ME_start = correct_ME_end - micro_exon_length
+
+		istart = int(istart)
+		iend = int(iend)
+
+		intron_seq = str(Genome[chr][istart:iend]).upper()
+
+		micro_exons_coords = []
+
+		island = "AG" + DR_corrected_micro_exon_seq_found + "GT"
+
+		rev_island = str(Seq(island).reverse_complement())
+
+		correct_ME_coords = False
+
+
+		if strand == "+" and island in intron_seq:
+
+			for i in [i for i in range(len(intron_seq)) if intron_seq.startswith(island, i)]:
+
+				ME_start = i + 2 + istart
+				ME_end = ME_start + len(DR_corrected_micro_exon_seq_found)
+				ME_chr = chr
+				ME_strand = strand
+
+				micro_exons_coords.append((ME_chr, ME_strand, ME_start, ME_end))
+
+				if ME_start == correct_ME_start and ME_end == correct_ME_end:
+
+					correct_ME_coords = True
+
+		elif strand == "-" and rev_island in intron_seq:
+
+
+			for i in [i for i in range(len(intron_seq)) if intron_seq.startswith(rev_island, i)]:
+
+				ME_start = i + 2 + istart
+				ME_end = ME_start + len(DR_corrected_micro_exon_seq_found)
+				ME_chr = chr
+				ME_strand = strand
+
+				micro_exons_coords.append((ME_chr, ME_strand, ME_start, ME_end))
+
+				if ME_start == correct_ME_start and ME_end == correct_ME_end:
+					correct_ME_coords = True
+
+		if correct_ME_coords == False and  number_of_host_introns == 1 and micro_exon_seq == DR_corrected_micro_exon_seq_found:
+			print intron, intron_tag, micro_exon_seq, DR_corrected_micro_exon_seq_found, correct_ME_start, correct_ME_end, micro_exons_coords
 
 		if number_of_host_introns == 1:
 
-			if micro_exon_seq == DR_corrected_micro_exon_seq_found:
+			if micro_exon_seq == DR_corrected_micro_exon_seq_found and correct_ME_coords:
 
 				micro_exons_found[micro_exon_length].add(intron)
+
+				#print strand, [i for i in range(len(intron_seq)) if intron_seq.startswith(island, i)], [i for i in range(len(intron_seq)) if intron_seq.startswith(rev_island, i)], micro_exon_seq, micro_exon_seq_found, I_pos_tag, DRU, DRD, anchor_up, DR_corrected_micro_exon_seq_found, q_block_ends[0], q_block_starts[1], micro_exon_seq == DR_corrected_micro_exon_seq_found, read.split("_")[0], tag.split("|")[0], read.split("_")[0] == tag.split("|")[0], seq, tag
+
 
 				#if micro_exon_seq != DR_corrected_micro_exon_seq_found and intron == intron_tag:
 
 				#	print micro_exon_seq, micro_exon_seq_found, I_pos_tag, DRU, DRD, anchor_up, DR_corrected_micro_exon_seq_found, q_block_ends[0], q_block_starts[1], micro_exon_seq == DR_corrected_micro_exon_seq_found, read.split("_")[0], tag.split("|")[0], read.split("_")[0] == tag.split("|")[0], seq, tag
 					#print i
-
 
 
 	for i in range(25):
@@ -269,19 +303,8 @@ def main(sam):
 		print i+1,number_micro_exons_found, number_total_micro_exons, percent(number_micro_exons_found, number_total_micro_exons)
 
 
-				
-
-
 if __name__ == '__main__':
 	Genomictabulator(sys.argv[1])
 	main(sys.argv[2])
-
-
-#['chr3:126133022+126135158_C_126133399_126133400_1_1', '0', 'chr3:126133022+126135158|ENST00000352312.1|100_100', '6', '0', '93M1I6M', '*', '0', '0', 'AACATGGTCCTGACCCTTCAGCGAACCCTTTCCACTTATCTGGGGATGTGGATTTCTTCTTGCTCAGAGATCAGGAGCGGAATAAGGCTCTCTCCCGAAC', 'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH', 'NM:i:1', 'MD:Z:99', 'AS:i:96', 'XS:i:95', 'XA:Z:chr3:126126095+126132927|ENST00000510833.1|100_100,+101,93M1I3M3I,4;'] 98 100 99 Tr
-# CGAAGAACATGGTCCTGACCCTTCAGCGAACCCTTTCCACTTATCTGGGGATGTGGATTTCTTCTTGCTCAGAGATCAGGAGCGGAATAAGGCTCTCT C CCGAACGGCAGCAGCAGAAGACGATGCGGGTGCACCAGAAGATGACCTACTCCTCGAAAGTGTCGGCTAAGCACACCAGCCTGCGGCGGCAGCTGCAGCTGG
-
-#GA
-#AGCCATGAAAGCTGTCTGTTCCAACATAAACGAGGCCAAGAGACAGATGGAGAAGTTAGAAGTTTTAGAGGAATGGCAGTCTCACATTGAAGGCTGGGA GGGGTCCAACATCACTGACACCTGCACTGAAATGCTAATGTGTGGAGTCTTACTGAAAATTTCTTCTGGAAATATTCAAGAACGGGTGTTTTTTCTTTTCG
-
 
 
