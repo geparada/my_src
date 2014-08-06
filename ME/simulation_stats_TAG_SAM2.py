@@ -277,8 +277,8 @@ def main(sam):
 				if ME_start == correct_ME_start and ME_end == correct_ME_end:
 					correct_ME_coords = True
 
-		if correct_ME_coords == False and  number_of_host_introns == 1 and micro_exon_seq == DR_corrected_micro_exon_seq_found:
-			print intron, intron_tag, micro_exon_seq, DR_corrected_micro_exon_seq_found, correct_ME_start, correct_ME_end, micro_exons_coords
+#	if correct_ME_coords == False and  number_of_host_introns == 1 and micro_exon_seq == DR_corrected_micro_exon_seq_found:
+#		print intron, intron_tag, micro_exon_seq, DR_corrected_micro_exon_seq_found, correct_ME_start, correct_ME_end, micro_exons_coords
 
 		if number_of_host_introns == 1:
 
