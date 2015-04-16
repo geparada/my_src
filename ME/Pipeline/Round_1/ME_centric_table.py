@@ -133,9 +133,9 @@ def main(row_ME):
 
 		out =  map(str, [sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min(P_MEs), total_ME])
 		
-		if total_ME=="":
 
-			print "\t".join(out)
+
+		print "\t".join(out)
 
 
 

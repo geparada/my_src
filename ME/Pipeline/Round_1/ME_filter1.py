@@ -119,7 +119,7 @@ def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, ph
 
 	for row in csv.reader(open(dust), delimiter = '>'):
 
-		black_list.add(row[0])
+		black_list.add(row[1])
 
 	for row in csv.reader(open(repbase), delimiter = '\t'):
 
@@ -365,7 +365,7 @@ def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, ph
 
 		same_ME = False
 
-		if start <= (up-8) and cigar.count("I") == 1 and cigar.count("D") == 0 and cigar.count("S") == 0 and (read in black_list)==False:
+		if start <= (up-8) and cigar.count("I") == 1 and cigar.count("D") == 0 and cigar.count("S") == 0 and (read in black_list)==False and len(DR_corrected_micro_exon_seq_found) <= 25:
 
 
 			if read in exons_reads_genome:

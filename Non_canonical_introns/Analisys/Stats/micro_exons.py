@@ -1,12 +1,12 @@
 import sys
 import csv
-
-Genome = {}
 import sys
 import csv
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
+
+Genome = {}
 
 def Genomictabulator(fasta):
 	

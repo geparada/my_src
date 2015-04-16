@@ -10,6 +10,21 @@ from operator import itemgetter
 
 
 Transcriptome = {}
+Genome = {}
+
+def Genomictabulator(fasta):
+	
+	print >> sys.stderr, "Cargando genoma en la memoria RAM ...",	
+
+	f = open(fasta)
+
+	for chrfa in SeqIO.parse(f, "fasta"):
+		Genome[chrfa.id] = chrfa.seq
+		
+	print >> sys.stderr, "OK"
+
+	f.close()
+
 
 	
 def Transcriptometabulator(genecode_fasta):
@@ -65,7 +80,9 @@ def main(bed12):
 
 				block_up = n
 				block_down = n
-				
+				dn = str(Genome[chr][istart:(istart+2)] + Genome[chr][(iend-2):iend]).upper()
+
+
 				if strand == '+' :                          #Para los que aliniean en la hebra +
 								   
 					if tag_start<0:                             #Precausiones generar buenos tag del primer y ultimo tag
@@ -81,6 +98,8 @@ def main(bed12):
 					
 								  
 				if strand == '-' :
+
+					dn = str((Genome[chr][istart:(istart+2)] + Genome[chr][(iend-2):iend]).reverse_complement()).upper()
 				
 					if tag_end>len(seq):                 #Para los que alinian en la hebra - es todo al inverso
 						tag_end=len(seq)
@@ -94,7 +113,7 @@ def main(bed12):
 						block_down = qstart
 
 										 
-				if b > 25 and b2 > 25 and ilength >= min_intron_lenght:  # hay que agregarle el filtro de los micro exones!!
+				if b > 25 and b2 > 25 and ilength >= min_intron_lenght and (dn=="GTAG" or dn=="GCAG" or dn=="ATAC"):  # hay que agregarle el filtro de los micro exones!!
 
 					info = qName, tag, chr, istart, iend, strand, block_up, block_down, block_up + block_down
 					transcript_intron_info[intron].append(info)	
@@ -123,5 +142,10 @@ def main(bed12):
 
 
 if __name__ == '__main__':
-	Transcriptometabulator(sys.argv[1])
-	main (sys.argv[2]) 		
+	Genomictabulator(sys.argv[1])
+	Transcriptometabulator(sys.argv[2])
+	main (sys.argv[3]) 		
+
+
+
+#El filtro del los intrones canonicos fue anadido despues

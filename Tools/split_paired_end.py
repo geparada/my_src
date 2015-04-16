@@ -11,13 +11,18 @@ from Bio.SeqRecord import SeqRecord
 def main (fastq):
 	""" Splits the reads at N position. It generate two files rd1 and rd2 """
 		
-	N = 80	
+	#N = 80	
 
 	f = open(fastq)
 	rd1 = open('rd1', 'w')
 	rd2 = open('rd2', 'w')
 		
 	for read in SeqIO.parse(f, "fastq"):
+		
+		N = len(read.seq)/2
+
+		if len(read.seq) == 155:
+			N = 80 
 		
 		rd1_seq = read.seq[:N]
 		rd2_seq = read.seq[N:]

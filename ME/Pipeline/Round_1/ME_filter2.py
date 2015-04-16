@@ -202,6 +202,18 @@ def main(ME_centric, snp, non_canonical_introns):
 
 			print "\t".join(row)
 
+		# if snp:
+		# 	print "\t".join(row) + "\t" + "SNP"
+
+		# if homopolymer:
+		# 	print "\t".join(row) + "\t" + "homopolymer"
+
+		# if burge:
+		# 	print "\t".join(row) + "\t" + "Burge"
+
+		# if sum_total_coverage < 3:
+		# 	print "\t".join(row) + "\t" + "coverage"
+
 
 
 if __name__ == '__main__':
@@ -209,4 +221,4 @@ if __name__ == '__main__':
 	main(sys.argv[2], sys.argv[3], sys.argv[4])	
 
 
-#python ~/my_src/ME/Pipeline/ME_filter2.py ~/db/genome/hg19.fa TOTAL.sam.row_ME.filter1.ME_centric ~/db/Variation/snp138Common.fix ../../../Non_canonical_introns/TOTAL/non_canonical | sort -k 1 -n -r
+#python ~/my_src/ME/Pipeline/Round_1/ME_filter2.py ~/db/genome/hg19.fa TOTAL.sam.row_ME.filter1.ME_centric ~/db/Variation/snp138Common.fix ../../../Non_canonical_introns/TOTAL/non_canonical | sort -k 1 -n -r

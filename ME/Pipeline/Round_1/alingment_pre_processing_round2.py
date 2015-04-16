@@ -130,7 +130,15 @@ def main(sam):
 				for i in alinments:
 
 					read, flag, tag, start, cigar, seq, qual = i
-					intron_tag, transcript_ID, anchors = tag.split("|")
+
+					intron_tag = tag.split("|")[0]
+					transcript_ID = tag.split("|")[1]
+					anchors = tag.split("|")[2]
+
+					ME = ""
+
+					if len(tag.split("|"))==4:
+						ME = tag.split("|")[3]
 
 					anchor_up, anchor_down = anchors.split("_")
 					anchor_up = int(anchor_up)
@@ -142,6 +150,8 @@ def main(sam):
 					q_block_ends = []			
 					q_block = 0
 					var_index = 0
+
+					only_matches = True
 				
 					for var in cigar_list:
 						var_type = var[0]
@@ -153,66 +163,29 @@ def main(sam):
 							
 						if var_type == 'D':
 							q_block += var_value
+							only_matches = False
 												
 						if var_type == 'I':
 							q_block_ends.append(q_block_starts[-1] + q_block)
 							q_block_starts.append(q_block_ends[-1] + var_value)
 							q_block += 0
+							only_matches = False
 							
 						if var_type == 'N':
 							q_block = 0
+							only_matches = False
 							
 						if var_index == len(cigar_list):
 							q_block_ends.append(q_block_starts[-1] + q_block)
 
-					if len(q_block_ends)==2: #deveria tener solo 2 q_blocks ya que deberia encontrar una insercion asocciada a un micro-exon
+					if len(q_block_ends)==1 and only_matches: #En este round solo deberia haber 1 solo bloque de alineamiento
 
 
-						micro_exon_seq_found = seq[q_block_ends[0]:q_block_starts[1]].upper()
-						micro_exon_len_found = len(micro_exon_seq_found)
-
-						micro_exon_seq_up = seq[:q_block_ends[0]].upper()
-						micro_exon_seq_down = seq[q_block_starts[1]:].upper()
-
-						if micro_exon_seq_up!="" and micro_exon_seq_down!="":  #Esto evita insersiones terminales
-
-							DRU, DRD = DR_counter(micro_exon_seq_up, micro_exon_seq_found, micro_exon_seq_down)
-
-							I_pos_tag = start + q_block_ends[0]
-
-							
-							if (I_pos_tag - DRU <= anchor_up <= I_pos_tag + DRD):
-
-								DR_corrected_micro_exon_seq_found = seq[q_block_ends[0] + (anchor_up-I_pos_tag):q_block_starts[1] + (anchor_up-I_pos_tag)].upper()
-
-								info = (read, flag, tag, start, cigar, seq, qual, q_block_starts, q_block_ends,  micro_exon_seq_found, I_pos_tag, DRU, DRD, DR_corrected_micro_exon_seq_found)
-
-								reads_micro_exon.append(info)
-								reads_tags_intron[read].add(intron_tag)
+						if start <= anchor_up - 8 and start + q_block_ends[0] >= (anchor_up + len(ME) + 8):
 
 
-	for i in reads_micro_exon:
+							print "\t".join(map(str, [read, flag, tag, start, cigar, seq, qual]))
 
-		read, flag, tag, start, cigar, seq, qual, q_block_starts, q_block_ends,  micro_exon_seq_found, I_pos_tag, DRU, DRD, DR_corrected_micro_exon_seq_found = i
-		intron_tag, transcript_ID, anchors = tag.split("|")
-		chr, istart, iend = re.findall(r"[\w']+", intron_tag)
-
-		q_block_starts = ",".join(map(str, q_block_starts))
-		q_block_ends = ",".join(map(str, q_block_ends))
-
-		istart = int(istart)
-		iend = int(iend)
-
-		number_of_host_introns = len(reads_tags_intron[read])
-
-		strand = "+"
-
-		if "-" in intron_tag:
-			strand = "-"
-
-		if number_of_host_introns == 1:
-
-			print "\t".join(map(str, [read, flag, tag, start, cigar, seq, qual, q_block_starts, q_block_ends,  micro_exon_seq_found, I_pos_tag, DRU, DRD, DR_corrected_micro_exon_seq_found]))
 
 
 if __name__ == '__main__':
