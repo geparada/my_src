@@ -14,14 +14,14 @@ def setBoxColors(bp):
     setp(bp['fliers'][1], color='blue')
     setp(bp['medians'][0], color='blue')
 
-    setp(bp['boxes'][1], color='red')
-    setp(bp['caps'][2], color='red')
-    setp(bp['caps'][3], color='red')
-    setp(bp['whiskers'][2], color='red')
-    setp(bp['whiskers'][3], color='red')
-    setp(bp['fliers'][2], color='red')
-    setp(bp['fliers'][3], color='red')
-    setp(bp['medians'][1], color='red')
+    setp(bp['boxes'][0], color='red')
+    setp(bp['caps'][0], color='red')
+    setp(bp['caps'][1], color='red')
+    setp(bp['whiskers'][0], color='red')
+    setp(bp['whiskers'][1], color='red')
+    setp(bp['fliers'][0], color='red')
+    setp(bp['fliers'][1], color='red')
+    setp(bp['medians'][0], color='red')
 
 
 def main(Final_ME_TABLE):
@@ -37,8 +37,6 @@ def main(Final_ME_TABLE):
 
 		len_micro_exon_seq_found = int(len_micro_exon_seq_found)
 
-		ME_cov_sum = 0
-		SJ_cov_sum = 0
 
 		Novel = False
 
@@ -46,6 +44,8 @@ def main(Final_ME_TABLE):
 
 			Novel = True
 
+		ME_cov_sum = 0
+		SJ_cov_sum = 0
 		
 		for cov in [mixture_cov, adipose_cov, adrenal_cov, brain_cov, breast_cov, colon_cov, heart_cov, kidney_cov, liver_cov, lung_cov, lymph_node_cov, ovary_cov, prostate_cov, skeletal_muscle_cov, testes_cov, thyroid_cov, white_blood_cells_cov, HepG2_control_cov, HepG2_UPF2_cov, HELA_control_cov, HELA_UPF1_cov]:
 
@@ -72,29 +72,37 @@ def main(Final_ME_TABLE):
 
 	C = 0
 
+	xticks_pos = []
+
 	for i in range(1,26):
 
 		data = [novel_cov_len[i], annotated_cov_len[i]]
 		bp = boxplot(data, positions = [C + i, C + i + 1], widths=0.6)
 		setBoxColors(bp)
+
+		xticks_pos.append(C + i + 0.5) 
+
 		C += 3
 
-	xlim(0,9)
-	ylim(0,9)
+	#xlim(3,78)
+	ylim(0,100)
+
 	ax.set_xticklabels(map(str,range(1,26)))
-	ax.set_xticks([1.5, 4.5, 7.5])
+	ax.set_xticks(xticks_pos)
 
 	# draw temporary red and blue lines and use them to create a legend
 	hB, = plot([1,1],'b-')
 	hR, = plot([1,1],'r-')
-	legend((hB, hR),('Novel', 'Annotated'))
+	legend((hR, hB),('Novel', 'Annotated'))
 	hB.set_visible(False)
 	hR.set_visible(False)
 
 	savefig('Novel_Annotated_coverage.png')
 	show()
 
+	####### Tisue specific ###########
 
+	
 
 if __name__ == '__main__':
 	main(sys.argv[1])
