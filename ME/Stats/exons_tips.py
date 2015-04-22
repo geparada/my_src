@@ -60,11 +60,14 @@ def main(bed12, ME_centric_filter3, blencowe, ponting):
 					estarts.add(chr + "_" +  str(eend))
 
 
-	for row in csv.reader(open(ME_centric_filter3), delimiter = '\t'):
+	for row in csv.reader(open(ME_centric_filter3), delimiter = ' '):
 
-		sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min_P_ME, total_ME, true_ME, score, is_annotated = row
+		#sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min_P_ME, total_ME, true_ME, score, is_annotated = row
 
-		ME, U2_scores, mean_conservations_vertebrates, mean_conservations_primates = true_ME.split("|")
+		ME, total_SJs, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, GENCODE, Blencowe, Ponting, ME_cov_sum, SJ_cov_sum,  mixture_cov, adipose_cov, adrenal_cov, brain_cov, breast_cov, colon_cov, heart_cov, kidney_cov, liver_cov, lung_cov, lymph_node_cov, ovary_cov, prostate_cov, skeletal_muscle_cov, testes_cov, thyroid_cov, white_blood_cells_cov, HepG2_control_cov, HepG2_UPF2_cov, HELA_control_cov, HELA_UPF1_cov = row
+			
+
+		#ME, U2_scores, mean_conservations_vertebrates, mean_conservations_primates = true_ME.split("|")
 
 		ME_chrom, ME_strand, ME_start, ME_end = ME.split("_")
 
@@ -105,8 +108,7 @@ def main(bed12, ME_centric_filter3, blencowe, ponting):
 				alternative_3 = True
 
 
-		if 25 >= len_micro_exon_seq_found >=3:
-
+		if alternative_3: # and GENCODE=="False" and Blencowe=="False" and Ponting=="False":
 			print row
 
 
