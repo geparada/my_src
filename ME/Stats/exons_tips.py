@@ -109,7 +109,7 @@ def main(bed12, ME_centric_filter3, blencowe, ponting):
 
 
 		if alternative_3: # and GENCODE=="False" and Blencowe=="False" and Ponting=="False":
-			print row
+			print "\t".join(row)
 
 
 			# if blencowe_annotated==True:
