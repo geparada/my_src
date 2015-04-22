@@ -60,7 +60,7 @@ def main(bed12, ME_centric_filter3, blencowe, ponting):
 					estarts.add(chr + "_" +  str(eend))
 
 
-	for row in csv.reader(open(ME_centric_filter3), delimiter = ' '):
+	for row in csv.reader(open(ME_centric_filter3), delimiter = '\t'):
 
 		#sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min_P_ME, total_ME, true_ME, score, is_annotated = row
 
@@ -108,7 +108,7 @@ def main(bed12, ME_centric_filter3, blencowe, ponting):
 				alternative_3 = True
 
 
-		if alternative_3: # and GENCODE=="False" and Blencowe=="False" and Ponting=="False":
+		if alternative_5: # and GENCODE=="False" and Blencowe=="False" and Ponting=="False":
 			print "\t".join(row)
 
 
