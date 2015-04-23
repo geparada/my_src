@@ -58,6 +58,7 @@ def PWM_to_dict(file):
 	matrix["C"] = C_frec
 	matrix["G"] = G_frec
 	matrix["T"] = T_frec
+	matrix["N"] = min(A_frec , C_frec, G_frec, T_frec)
 	
 	return matrix
 
@@ -82,9 +83,12 @@ def main(ME_final, U2_GTAG_5_file, U2_GTAG_3_file):
 
 		#sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min_P_ME, total_ME, true_ME, score, is_annotated = row
 
-		ME, total_SJs, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, GENCODE, Blencowe, Ponting, ME_cov_sum, SJ_cov_sum,  mixture_cov, adipose_cov, adrenal_cov, brain_cov, breast_cov, colon_cov, heart_cov, kidney_cov, liver_cov, lung_cov, lymph_node_cov, ovary_cov, prostate_cov, skeletal_muscle_cov, testes_cov, thyroid_cov, white_blood_cells_cov, HepG2_control_cov, HepG2_UPF2_cov, HELA_control_cov, HELA_UPF1_cov = row
+		#ME, total_SJs, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, GENCODE, Blencowe, Ponting, ME_cov_sum, SJ_cov_sum,  mixture_cov, adipose_cov, adrenal_cov, brain_cov, breast_cov, colon_cov, heart_cov, kidney_cov, liver_cov, lung_cov, lymph_node_cov, ovary_cov, prostate_cov, skeletal_muscle_cov, testes_cov, thyroid_cov, white_blood_cells_cov, HepG2_control_cov, HepG2_UPF2_cov, HELA_control_cov, HELA_UPF1_cov = row
 
-		ME_chrom, ME_strand, ME_start, ME_end = ME.split("_")
+		ME_chrom, ME_start,ME_end, ME, len_micro_exon_seq_found, ME_strand = row
+
+
+		#ME_chrom, ME_strand, ME_start, ME_end = ME.split("_")
 
 
 		ME_start = int(ME_start)
