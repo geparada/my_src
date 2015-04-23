@@ -108,7 +108,7 @@ def main(bed12, ME_centric_filter3, blencowe, ponting):
 				alternative_3 = True
 
 
-		if alternative_5: # and GENCODE=="False" and Blencowe=="False" and Ponting=="False":
+		if alternative_3: # and GENCODE=="False" and Blencowe=="False" and Ponting=="False":
 			print "\t".join(row)
 
 
