@@ -130,7 +130,7 @@ def main(ME_final, U2_GTAG_5_file, U2_GTAG_3_file):
 		ME5_U2_score = percent(ME5_U2_score, U2_GTAG_3_max_score)
 
 
-		print ME, len_micro_exon_seq_found, ME5_U2_score, ME3_U2_score, phi, log2_ME_cov_sum
+		print ME, len_micro_exon_seq_found, ME5_U2_score, ME3_U2_score, phi, ME_cov_sum, log2_ME_cov_sum
 
 
 if __name__ == '__main__':
