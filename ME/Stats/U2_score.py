@@ -105,26 +105,27 @@ def main(ME_final, U2_GTAG_5_file, U2_GTAG_3_file):
 			ME3 = str(Genome[ME_chrom][ME_start-10:ME_start+3].reverse_complement()).upper()
 
 
-		U2_score_5 = 0
-		U2_score_3 = 0
+
+		ME5_U2_score = 0
+		ME3_U2_score = 0		
 
 		i = 0
 
 		for N in ME5:
-			U2_score_3 += U2_GTAG_3[N][i]
+			ME5_U2_score += U2_GTAG_3[N][i]
 			i += 1
 
 		i = 0
 
 		for N in ME3:
-			U2_score_5 += U2_GTAG_5[N][i]
+			ME3_U2_score += U2_GTAG_5[N][i]
 			i += 1
 
-		U2_score_5 = percent(U2_score_5, U2_GTAG_5_max_score)
-		U2_score_3 = percent(U2_score_3, U2_GTAG_3_max_score)
+		ME3_U2_score = percent(ME3_U2_score, U2_GTAG_5_max_score)
+		ME5_U2_score = percent(ME5_U2_score, U2_GTAG_3_max_score)
 
 
-		print ME, len_micro_exon_seq_found, U2_score_3, U2_score_5
+		print ME, len_micro_exon_seq_found, ME5_U2_score, ME3_U2_score
 
 
 if __name__ == '__main__':

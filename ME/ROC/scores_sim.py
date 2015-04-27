@@ -89,37 +89,43 @@ def main(sim_fastq,  U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_
 
 	for row in csv.reader(open(sim_fastq), delimiter = '\t'):
 
+		chr, estart, eend, exon, exon_len, strand = row
 
-		if row[0][0]=="@":
-
-			SJ, ME_seq, estart, eend, total_coverage, n = row[0].split("_")
-
-			len_ME = len(ME_seq)
-
-			SJ = SJ[1:]
-			SJ_chr, SJ_istart, SJ_iend = re.findall(r"[\w']+", SJ)
+		estart = int(estart)
+		eend = int(eend)
 
 
-			SJ_len = int(SJ_iend) - int(SJ_istart)
-			Kmer = SJ_len - (len_ME+1)
-			P_ME = 1 - ( 1 - (float(1)/float(4**len_ME+4)))**Kmer	
 
-			strand = "+"
+	# 	if row[0][0]=="@":
 
-			if "-" in SJ:
-				strand = "-"
+	# 		SJ, ME_seq, estart, eend, total_coverage, n = row[0].split("_")
 
-			estart = int(estart)
-			eend = int(eend)
+	# 		len_ME = len(ME_seq)
 
-			MEs.add((SJ_chr, strand, estart, eend, P_ME))
+	# 		SJ = SJ[1:]
+	# 		SJ_chr, SJ_istart, SJ_iend = re.findall(r"[\w']+", SJ)
 
 
-	for m in MEs:
+	# 		SJ_len = int(SJ_iend) - int(SJ_istart)
+	# 		Kmer = SJ_len - (len_ME+1)
+	# 		P_ME = 1 - ( 1 - (float(1)/float(4**len_ME+4)))**Kmer	
 
-		chr, strand, estart, eend, P_ME = m
+	# 		strand = "+"
 
-		estart, eend = sorted([estart, eend])
+	# 		if "-" in SJ:
+	# 			strand = "-"
+
+	# 		estart = int(estart)
+	# 		eend = int(eend)
+
+	# 		MEs.add((SJ_chr, strand, estart, eend, P_ME))
+
+
+	# for m in MEs:
+
+	# 	chr, strand, estart, eend, P_ME = m
+
+	# 	estart, eend = sorted([estart, eend])
 
 		E5 = str(Genome[chr][estart-14:estart+3]).upper()
 		E3 = str(Genome[chr][eend-3:eend+10]).upper()
@@ -135,12 +141,16 @@ def main(sim_fastq,  U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_
 
 
 		U2_score = 0
+		ME5_U2_score = 0
+		ME3_U2_score = 0	
 
 		i = 0
+
 
 		for N in E5:
 			if N!="N":
 				U2_score += U2_GTAG_3[N][i]
+				ME5_U2_score += U2_GTAG_3[N][i]
 				i += 1
 
 		i = 0
@@ -148,7 +158,11 @@ def main(sim_fastq,  U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_
 		for N in E3:
 			if N!="N":
 				U2_score += U2_GTAG_5[N][i]
+				ME3_U2_score += U2_GTAG_5[N][i]
 				i += 1
+
+		ME3_U2_score = percent(ME3_U2_score, U2_GTAG_5_max_score)
+		ME5_U2_score = percent(ME5_U2_score, U2_GTAG_3_max_score)
 
 		U2_score = percent(U2_score, TOTAL_U2_max_score)
 
@@ -182,7 +196,7 @@ def main(sim_fastq,  U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_
 			pass
 
 		#print chr, estart, eend, strand, U2_score, mean_conservation_vertebrates, mean_conservation_primates
-		print chr, estart, eend, strand, U2_score, mean_conservation_vertebrates, mean_conservation_primates
+		print chr, estart, eend, strand, U2_score, ME5_U2_score, ME3_U2_score,  mean_conservation_vertebrates, mean_conservation_primates
 
  #python ~/my_src/ME/ROC/scores_sim.py ~/db/genome/hg19.fa sim_reads.fastq ~/db/PWM/hg19_GT_AG_U2_5.good.matrix ~/db/PWM/hg19_GT_AG_U2_3.good.matrix ~/db/hg19.100way.phyloP100way.bw ~/db/hg19.46way.phyloP46way.primates.bw
 if __name__ == '__main__':
