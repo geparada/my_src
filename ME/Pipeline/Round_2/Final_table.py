@@ -1,15 +1,28 @@
 import csv
 import sys
 
+ME_alt = {}
+
 def ME_SJ_coverage_reader(ME_SJ, cov):
 
 	for row in csv.reader(open(ME_SJ), delimiter = '\t'):
 
-		ME, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, is_annotated, total_SJs, ME_SJ_coverages, sum_ME_coverage, SJ_coverages, sum_SJ_coverage = row
+		#ME, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, is_annotated, total_SJs, ME_SJ_coverages, sum_ME_coverage, SJ_coverages, sum_SJ_coverage = row
+
+		ME, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, is_annotated, total_SJs, ME_SJ_coverages, sum_ME_coverage, SJ_coverages, sum_SJ_coverage, is_alternative_5, is_alternative_3, alternatives_5, cov_alternatives_5, total_cov_alternatives_5, alternatives_3, cov_alternatives_3,  total_cov_alternatives_3 = row
+
+
 
 		#psi = float(sum_ME_coverage) / (float(sum_ME_coverage) + float(sum_SJ_coverage))
 
-		cov[ME] = sum_ME_coverage + "/" + sum_SJ_coverage #+ "_" + str(psi)
+		ME_alt[ME] = [is_alternative_5, is_alternative_3]
+
+		if is_alternative_5=="True" or is_alternative_3=="True":
+
+			cov[ME] = sum_ME_coverage + "/" + sum_SJ_coverage + "|" + total_cov_alternatives_5 + "|" + total_cov_alternatives_3 #+ "_" + str(psi)
+
+		else:
+			cov[ME] = sum_ME_coverage + "/" + sum_SJ_coverage
 
 		#(ME_SJ_coverages, sum_ME_coverage , SJ_coverages, sum_SJ_coverage)
 
@@ -97,6 +110,8 @@ def main( ME_centric_filter3, blencowe, ponting, mixture, adipose, adrenal, brai
 		Ponting = (ME_ID in ponting_ME)		
 
 
+		is_alternative_5, is_alternative_3 = ME_alt[ME]
+
 		# mixture_cov[ME]
 		# adipose_cov[ME]
 		# adrenal_cov[ME]
@@ -126,13 +141,13 @@ def main( ME_centric_filter3, blencowe, ponting, mixture, adipose, adrenal, brai
 
 			ME_cov, SJ_cov = cov.split("/")
 			ME_cov = int(ME_cov)
-			SJ_cov = int(SJ_cov)
+			SJ_cov = sum(map(int, SJ_cov.split("|")))
 
 			ME_cov_sum += ME_cov
 			SJ_cov_sum += SJ_cov
 
 
-		print ME, total_SJs, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, GENCODE, Blencowe, Ponting, ME_cov_sum, SJ_cov_sum,  mixture_cov[ME], adipose_cov[ME], adrenal_cov[ME], brain_cov[ME], breast_cov[ME], colon_cov[ME], heart_cov[ME], kidney_cov[ME], liver_cov[ME], lung_cov[ME], lymph_node_cov[ME], ovary_cov[ME], prostate_cov[ME], skeletal_muscle_cov[ME], testes_cov[ME], thyroid_cov[ME], white_blood_cells_cov[ME], HepG2_control_cov[ME], HepG2_UPF2_cov[ME], HELA_control_cov[ME], HELA_UPF1_cov[ME] 
+		print ME, total_SJs, U2_scores, mean_conservations_vertebrates, mean_conservations_primates, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, min_P_ME, score, GENCODE, Blencowe, Ponting, is_alternative_5, is_alternative_3, ME_cov_sum, SJ_cov_sum,  mixture_cov[ME], adipose_cov[ME], adrenal_cov[ME], brain_cov[ME], breast_cov[ME], colon_cov[ME], heart_cov[ME], kidney_cov[ME], liver_cov[ME], lung_cov[ME], lymph_node_cov[ME], ovary_cov[ME], prostate_cov[ME], skeletal_muscle_cov[ME], testes_cov[ME], thyroid_cov[ME], white_blood_cells_cov[ME], HepG2_control_cov[ME], HepG2_UPF2_cov[ME], HELA_control_cov[ME], HELA_UPF1_cov[ME] 
 
 if __name__ == '__main__':
 	main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10], sys.argv[11], sys.argv[12], sys.argv[13], sys.argv[14], sys.argv[15], sys.argv[16], sys.argv[17], sys.argv[18], sys.argv[19], sys.argv[20], sys.argv[21], sys.argv[22], sys.argv[23], sys.argv[24])
