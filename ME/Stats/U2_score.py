@@ -129,8 +129,27 @@ def main(ME_final, U2_GTAG_5_file, U2_GTAG_3_file):
 		ME3_U2_score = percent(ME3_U2_score, U2_GTAG_5_max_score)
 		ME5_U2_score = percent(ME5_U2_score, U2_GTAG_3_max_score)
 
+		tissue_phis = [0]
 
-		print ME, len_micro_exon_seq_found, ME5_U2_score, ME3_U2_score, phi, ME_cov_sum, log2_ME_cov_sum, is_alternative_5, is_alternative_3
+		for cov in [adipose_cov, adrenal_cov, brain_cov, breast_cov, colon_cov, heart_cov, kidney_cov, liver_cov, lung_cov, lymph_node_cov, ovary_cov, prostate_cov, skeletal_muscle_cov, testes_cov, thyroid_cov, white_blood_cells_cov]:
+
+			ME_cov = float(cov.split("/")[0])
+			SJ_cov = sum(map(float, cov.split("/")[1].split("|")))
+			phi_t=0
+			if (ME_cov + SJ_cov)>=10:
+				phi_t = ME_cov / (ME_cov + SJ_cov)
+
+				tissue_phis.append(phi_t)
+
+		max_tissue_phi = max(tissue_phis)
+
+
+
+
+
+
+
+		print ME, len_micro_exon_seq_found, ME5_U2_score, ME3_U2_score, phi, max_tissue_phi, ME_cov_sum, log2_ME_cov_sum, is_alternative_5, is_alternative_3
 
 
 if __name__ == '__main__':
