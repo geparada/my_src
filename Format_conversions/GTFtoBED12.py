@@ -20,7 +20,10 @@ def converter (GTF):
 	for line in f:
 		row = line.replace(";","\t").replace(" ","\t").replace("\t\t","\t").split("\t")		
 		try:
+
+			#print row[2]
 			chr = row[0]
+			#print row
 			group = row[1]
 			blocktype = row[2]
 			block_start = int(row[3]) - 1
@@ -30,14 +33,18 @@ def converter (GTF):
 			gene_id = row[9]
 			transcript_id = row[11]
 			gene_type = row[13]
+			#print row
 			gene_status = row[15]
 			gene_name = row[17]
 			transcript_type = row[19]
 			transcript_status = row[21]
 			transcript_name = row[23]
-			level = int(row[25])			
+			#print row
+			level = int(row[25])
+			#level = 0
 
-			if blocktype == 'exon':
+
+			if blocktype == 'exon': 
 				keys.append(transcript_id)
 				transcript_id_info.append((transcript_id, [chr, group, blocktype, strand, gene_id, gene_type, gene_status, gene_name, transcript_type, transcript_status, transcript_name, level]))
 						
@@ -65,7 +72,8 @@ def converter (GTF):
 	for transcript_id, block_size in exon_size:
 		dict_exon_size[transcript_id].append(block_size)
 
-	for key in set(keys):
+	for key in set(keys):		
+
 		chr = dict_id_info[key][0]
 		name = key
 		strand = dict_id_info[key][3]
