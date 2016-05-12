@@ -87,7 +87,6 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 
 					if e5len >= anchor <= e3len:
 
-						print intron
 
 						SS["_".join([chr, str(istart)])].add(seq)
 						SS["_".join([chr, str(iend)])].add(seq)
