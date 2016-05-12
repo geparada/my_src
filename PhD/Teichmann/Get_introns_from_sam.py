@@ -35,7 +35,7 @@ def ascii_classifier(c):
 			
 
 def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si forward es Rd1 o Rd2
-#	reader = csv.reader(open(sam), delimiter = '\t')
+	reader = csv.reader(open(sam), delimiter = '\t')
 	
 	
 	pair_ori = 0
