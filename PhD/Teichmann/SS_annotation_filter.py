@@ -30,7 +30,7 @@ def main(gencode_gff, SS_count):
 			if feature == "exon":
 
 
-				print feature, chrom, start, end, SS_count["_".join([chrom, start])], SS_count["_".join([chrom, end])]
+				print feature, chrom, start, end, SS_counts["_".join([chrom, start])], SS_counts["_".join([chrom, end])]
 
 
 
