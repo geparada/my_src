@@ -22,6 +22,8 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 	reader = csv.reader(open(sam), delimiter = '\t')
 	
 	
+	SS = defaultdict(set)
+
 	for row in reader:
 		if row[0][0] != "@":
 			if "N" in row[5]:
@@ -83,9 +85,17 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 					intron = "_".join([chr, str(istart), str(iend)])
 
 
-					if e5len >= anchor <= e3len:                #filtro tamano de intrones y anchor
+					if e5len >= anchor <= e3len:
 
-						print read, chr, istart, iend, ilen, intron, start, cigar, e5s, e5e, e3s, e3e, seq
+						SS["_".join([chr, str(istart)])].add(seq)
+						SS["_".join([chr, str(iend)])].add(seq)
+						
+
+	for i in SS.items():
+		ss, seqs = i
+		cov = len(seqs)
+
+		print ss, cov
 
 						
 			
