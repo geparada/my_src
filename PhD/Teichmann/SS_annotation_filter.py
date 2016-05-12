@@ -6,17 +6,16 @@ from collections import defaultdict
 def main(gencode_gff, SS_count):
 
 
-	SS_count = defaultdict(int)
+	SS_counts = defaultdict(int)
 
 
 	for row in csv.reader(open(SS_count), delimiter = ' '):
 
-		print row
 
 		SS, count = row
 		count = int(count)
 
-		SS_count[SS] += count
+		SS_counts[SS] += count
 
 
 
