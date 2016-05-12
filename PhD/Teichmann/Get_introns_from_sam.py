@@ -55,29 +55,29 @@ def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si
 				cigar = row[5]
 				seq = row[9]
 				
-				pair_ori = 0
-				if forward == "Rd1":
-					pair_ori = 1
-				elif forward == "Rd2":
-					pair_ori = -1
+				# pair_ori = 0
+				# if forward == "Rd1":
+				# 	pair_ori = 1
+				# elif forward == "Rd2":
+				# 	pair_ori = -1
 						
-				self_strand = 1
-				pair_strand = '+'
+				# self_strand = 1
+				# pair_strand = '+'
 							
-				#Si no se tiene el flag XS:A:- se tienen que implementar las operaciones a nivel de bits:
+				# #Si no se tiene el flag XS:A:- se tienen que implementar las operaciones a nivel de bits:
 				
-				if (1 & int(flag)):    #paired end
-					pair_number = flag_dict[flag][0]
-					self_strand = flag_dict[flag][1]
-					if pair_ori*self_strand*pair_number==-1:
-						pair_strand = '-'
+				# if (1 & int(flag)):    #paired end
+				# 	pair_number = flag_dict[flag][0]
+				# 	self_strand = flag_dict[flag][1]
+				# 	if pair_ori*self_strand*pair_number==-1:
+				# 		pair_strand = '-'
 											
-				elif (16 & int(flag)):   #single end      
-					self_strand = -1
-					pair_strand = '-'
+				# elif (16 & int(flag)):   #single end      
+				# 	self_strand = -1
+				# 	pair_strand = '-'
 				
-				if self_strand == -1:
-					seq = str(Seq(seq).reverse_complement())
+				# if self_strand == -1:
+				# 	seq = str(Seq(seq).reverse_complement())
 						
 				aux_str = ''
 				cigar_vars = [] 
@@ -127,7 +127,7 @@ def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si
 					istart = e5e
 					iend = e3s
 					ilen = iend - istart
-					intron = chr + ":" +  str(istart) + pair_strand + str(iend)
+					intron = "_"join(chr +  str(istart) + str(iend))
 
 								
 					# dn = Genome[chr][istart:(istart+2)] + Genome[chr][(iend-2):iend]
@@ -139,7 +139,7 @@ def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si
 
 					#if max_ilen >= ilen >=min_ilen and e5len >= anchor <= e3len:                #filtro tamano de intrones y anchor
 					#print read, chr, istart, iend, pair_strand, ilen, intron, dn, start, cigar, e5s, e5e, e3s, e3e, seq
-					print read, chr, istart, iend, pair_strand, ilen, intron, start, cigar, e5s, e5e, e3s, e3e, seq
+					print read, chr, istart, iend, ilen, intron, start, cigar, e5s, e5e, e3s, e3e, seq
 
 					#print intron, dn	
 						
