@@ -10,7 +10,7 @@ def main(gencode_gff, SS_count):
 
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
 
-			if feature == "exonic_part":
+			if feature == "exon":
 
 				start = int(start)
 				end = int(end)
