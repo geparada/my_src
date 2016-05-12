@@ -17,7 +17,7 @@ for i in range(1, len(sys.argv)):
 
 for i in SS_sum.items():
 
-	print " ".join(i)
+	print " ".join(map(str,i))
 
 
 
