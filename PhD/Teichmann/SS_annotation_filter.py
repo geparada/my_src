@@ -9,7 +9,7 @@ def main(gencode_gff, SS_count):
 	SS_count = defaultdict(int)
 
 
-	for row in csv.reader(open(SS_count, delimiter = ' '):
+	for row in csv.reader(open(SS_count), delimiter = ' '):
 
 		SS, count = row
 		count = int(count)
@@ -18,7 +18,7 @@ def main(gencode_gff, SS_count):
 
 
 
-	for row in csv.reader(open(gencode_gff delimiter = '\t'):
+	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
 
 		if row[0][0]!='#':
 
