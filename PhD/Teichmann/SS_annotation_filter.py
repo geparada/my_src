@@ -1,8 +1,22 @@
 import sys
 import csv
+from collections import defaultdict 
 
 
 def main(gencode_gff, SS_count):
+
+
+	SS_count = defaultdict(int)
+
+
+	for row in csv.reader(open(sys.argv[1]), delimiter = '\t'):
+
+		SS, count = row
+		count = int(count)
+
+		SS_count[SS] += count
+
+
 
 	for row in csv.reader(open(sys.argv[1]), delimiter = '\t'):
 
@@ -10,12 +24,14 @@ def main(gencode_gff, SS_count):
 
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
 
+			chrom = chrom.strip("chr")
+
 			if feature == "exon":
 
 				start = int(start)
 				end = int(end)
 
-				print feature, chrom, start, end
+				print feature, chrom, start, end, SS_count["_".join(chrom, start)], SS_count["_".join(chrom, end)]
 
 
 
