@@ -5,18 +5,24 @@ from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
 
 
-SeqTable = []
+
 
 #dicionario de fag [Rd1/Rd2, +/-]
 flag_dict = {'73':[1,1], '89':[1,1], '121':[1,-1], '153':[-1,-1], '185':[-1,-1], '137':[-1,1], '99':[1,1], '147':[-1,-1], '83':[1,-1], '163':[-1,1], '67':[1,1], '115':[1,-1], '179':[-1,-1], '81':[1,-1], "161":[-1,1], '97':[1,1], '145':[-1,-1], '65':[1,1], '129':[-1,1], '113':[1,-1], '177':[-1,-1] }
 
+Genome = {}
+
 def Genomictabulator(fasta):
 	
+	print >> sys.stderr, "Cargando genoma en la memoria RAM ...",	
+
 	f = open(fasta)
 
 	for chrfa in SeqIO.parse(f, "fasta"):
-		table = (str(chrfa.id), chrfa.seq)
-		SeqTable.append(table)
+		Genome[chrfa.id.split(" ")[0].strip("chr")] = chrfa.seq
+		
+	print >> sys.stderr, "OK"
+
 	f.close()
 
 def ascii_classifier(c): 
@@ -30,7 +36,6 @@ def ascii_classifier(c):
 
 def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si forward es Rd1 o Rd2
 #	reader = csv.reader(open(sam), delimiter = '\t')
-	Genome = dict(SeqTable)
 	
 	
 	pair_ori = 0
@@ -125,16 +130,18 @@ def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si
 					intron = chr + ":" +  str(istart) + pair_strand + str(iend)
 
 								
-					dn = Genome[chr][istart:(istart+2)] + Genome[chr][(iend-2):iend]
+					# dn = Genome[chr][istart:(istart+2)] + Genome[chr][(iend-2):iend]
 
-					if pair_strand == '-':
-							dn = dn.reverse_complement()
+					# if pair_strand == '-':
+					# 		dn = dn.reverse_complement()
 							
-					dn = str(dn).upper()
+					# dn = str(dn).upper()
 
 					#if max_ilen >= ilen >=min_ilen and e5len >= anchor <= e3len:                #filtro tamano de intrones y anchor
-					#print read, chr, istart, iend, pair_strand, ilen, intron, dn, start, cigar, e5s, e5e, e3s, e3e, seq 
-					print intron, dn	
+					#print read, chr, istart, iend, pair_strand, ilen, intron, dn, start, cigar, e5s, e5e, e3s, e3e, seq
+					print read, chr, istart, iend, pair_strand, ilen, intron, start, cigar, e5s, e5e, e3s, e3e, seq
+
+					#print intron, dn	
 						
 			
 					
@@ -143,5 +150,5 @@ def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si
 
 
 if __name__ == '__main__':
-	Genomictabulator(sys.argv[1])
-	main(sys.argv[2], sys.argv[3], int(sys.argv[4]), int(sys.argv[5]), int(sys.argv[6]))
+	# Genomictabulator(sys.argv[1])
+	main(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]))
