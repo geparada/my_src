@@ -127,7 +127,7 @@ def main(sam, forward, min_ilen, max_ilen, anchor):          #hay que indicar si
 					istart = e5e
 					iend = e3s
 					ilen = iend - istart
-					intron = "_"join(chr +  str(istart) + str(iend))
+					intron = "_"join([chr +  str(istart) + str(iend)])
 
 								
 					# dn = Genome[chr][istart:(istart+2)] + Genome[chr][(iend-2):iend]
