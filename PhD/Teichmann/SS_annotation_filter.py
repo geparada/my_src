@@ -11,6 +11,8 @@ def main(gencode_gff, SS_count):
 
 	for row in csv.reader(open(sys.argv[1]), delimiter = ' '):
 
+		print row
+
 		SS, count = row
 		count = int(count)
 
