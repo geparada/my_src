@@ -42,8 +42,8 @@ def main(gencode_gff, SS_count):
 				exons_5[estart].add((eend,  SS_counts[eend]))
 				exons_3[eend].add((estart, SS_counts[estart]))
 
-				transcript = "\t".join(row)
-				exon = "\t".join(row)
+				transcript = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
+				exon = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 
 				transcripts[transcript].append(exon)
 
@@ -56,8 +56,6 @@ def main(gencode_gff, SS_count):
 		e_5, e_3_counts = i
 		e_3 =  max(e_3_counts,key=lambda item:item[1])
 		max_e_5s[e_5] = e_3_counts
-
-		print e_5, e_3_counts
 
 	for i in exons_3.items():
 
@@ -73,12 +71,10 @@ def main(gencode_gff, SS_count):
 
 		for e in exons:
 
-
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = e.split("\t")
 
 			estart = "_".join([chrom, str(int(start)-1)])
 			eend = "_".join([chrom, end])
-
 
 			max_e_3, max_e_3_count = max_e_5s[estart]
 			max_e_5, max_e_5_count = max_e_3s[eend]
