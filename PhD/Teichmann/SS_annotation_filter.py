@@ -55,13 +55,13 @@ def main(gencode_gff, SS_count):
 
 		e_5, e_3_counts = i
 		e_3 =  max(e_3_counts,key=lambda item:item[1])
-		max_e_5s[e_5] = e_3_counts
+		max_e_5s[e_5] = e_3
 
 	for i in exons_3.items():
 
 		e_3, e_5_counts = i
 		e_5 =  max(e_5_counts,key=lambda item:item[1])
-		max_e_3s[e_3] = e_5_counts
+		max_e_3s[e_3] = e_5
 
 
 	for t in transcripts.items():
