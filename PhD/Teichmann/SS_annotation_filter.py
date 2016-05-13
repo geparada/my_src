@@ -77,8 +77,9 @@ def main(gencode_gff, SS_count):
 			estart = "_".join([chrom, str(int(start)-1)])
 			eend = "_".join([chrom, end])
 
-			max_e_5, max_e_5_count = max_e_3s[eend]
+
 			max_e_3, max_e_3_count = max_e_5s[estart]
+			max_e_5, max_e_5_count = max_e_3s[eend]
 
 
 			if  max_e_5s[estart]==eend and max_e_3s[eend]==estart and  max_e_5_count > 0 and max_e_3_count > 0:
