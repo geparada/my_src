@@ -6,7 +6,7 @@ from collections import defaultdict
 def main(gencode_gff, SS_count):
 
 
-	SS_counts = defaultdict(int)
+	SS_counts = defaultdict(int)   #I choose default dict in this case to give 0 as default value.
 
 
 	for row in csv.reader(open(SS_count), delimiter = ' '):
@@ -18,6 +18,9 @@ def main(gencode_gff, SS_count):
 		SS_counts[SS] += count
 
 
+	transcripts = defaultdict(list)
+	exons_5 = defaultdict(set)
+	exons_3 =  defaultdict(set)
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
 
@@ -27,10 +30,72 @@ def main(gencode_gff, SS_count):
 
 			chrom = chrom.strip("chr")
 
+			if feature == "transcript":
+
+				transcript = " ".join(row)
+
 			if feature == "exon":
+
+				estart = "_".join([chrom, str(int(start)-1)])
+				eend = "_".join([chrom, end])
+
+				exons_5[estart].add((eend,  SS_counts[eend]))
+				exons_3[eend].add((estart, SS_counts[estart]))
+
+				transcript = " ".join(row)
+				exon = " ".join(row)
+
+				transcripts[transcript].add(exon)
 
 
 				print feature, chrom, start, end, SS_counts["_".join([chrom, str(int(start)-1)])], SS_counts["_".join([chrom, end])]
+
+
+	max_e_5s = {}
+	max_e_3s =  {}
+
+	for i in exons_5.items():
+
+		e_5, e_3_counts = i
+		e_3 =  max(e_3_counts,key=lambda item:item[1])
+		max_e_5s[e_5] = e_3_counts
+
+	for i in exons_3.items():
+
+		e_3, e_5_counts = i
+		e_5 =  max(e_5_counts,key=lambda item:item[1])
+		max_e_3s[e_3] = e_5_counts
+
+
+	for t in transcripts.items():
+		transcritp,  exons =  t
+
+		print "\t".joint(transcritp)
+
+		filtered_exons = []
+
+		for e in exons:
+
+			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = e
+
+			estart = "_".join([chrom, str(int(start)-1)])
+			eend = "_".join([chrom, end])
+
+			max_e_5, max_e_5_count = max_e_3s[eend]
+			max_e_3, max_e_3_count = max_e_5s[estart]
+
+
+			if  max_e_5s[estart]==eend and max_e_3s[eend]==estart and  max_e_5_count > 0 and max_e_3_count > 0:
+
+				filtered_exons.append(e)
+
+		if len(filtered_exons)>=0:
+
+			print "\t".joint(transcritp)
+
+			for e in filtered_exons:
+
+				print "\t".joint(e)
 
 
 
