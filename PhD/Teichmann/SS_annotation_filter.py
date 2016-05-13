@@ -71,7 +71,6 @@ def main(gencode_gff, SS_count):
 
 		for e in exons:
 
-			print e
 
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = e.split("\t")
 
