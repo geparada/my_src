@@ -45,7 +45,7 @@ def main(gencode_gff, SS_count):
 				transcript = " ".join(row)
 				exon = " ".join(row)
 
-				transcripts[transcript].add(exon)
+				transcripts[transcript].append(exon)
 
 
 				print feature, chrom, start, end, SS_counts["_".join([chrom, str(int(start)-1)])], SS_counts["_".join([chrom, end])]
