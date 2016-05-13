@@ -42,7 +42,7 @@ def main(gencode_gff, SS_count):
 				exons_5[estart].add((eend,  SS_counts[eend]))
 				exons_3[eend].add((estart, SS_counts[estart]))
 
-				transcript = " ".join(row)
+				transcript = "\t".join(row)
 				exon = " ".join(row)
 
 				transcripts[transcript].append(exon)
@@ -71,7 +71,7 @@ def main(gencode_gff, SS_count):
 
 		for e in exons:
 
-			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = e
+			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = e.split(" ")
 
 			estart = "_".join([chrom, str(int(start)-1)])
 			eend = "_".join([chrom, end])
@@ -86,7 +86,7 @@ def main(gencode_gff, SS_count):
 
 		if len(filtered_exons)>=0:
 
-			print "\t".joint(transcritp)
+			print transcritp
 
 			for e in filtered_exons:
 
