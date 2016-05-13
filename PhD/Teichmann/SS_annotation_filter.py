@@ -48,9 +48,6 @@ def main(gencode_gff, SS_count):
 				transcripts[transcript].append(exon)
 
 
-				print feature, chrom, start, end, SS_counts["_".join([chrom, str(int(start)-1)])], SS_counts["_".join([chrom, end])]
-
-
 	max_e_5s = {}
 	max_e_3s =  {}
 
@@ -69,8 +66,6 @@ def main(gencode_gff, SS_count):
 
 	for t in transcripts.items():
 		transcritp,  exons =  t
-
-		print "\t".joint(transcritp)
 
 		filtered_exons = []
 
