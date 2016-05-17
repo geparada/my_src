@@ -103,7 +103,7 @@ def main(gencode_gff, SS_count):
 
 						contain_intron = True
 
-						print chrom, start, end, istart, iend, 
+						print chrom, start, end, istart, iend 
 
 
 
