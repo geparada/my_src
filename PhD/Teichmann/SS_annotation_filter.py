@@ -70,7 +70,7 @@ def main(gencode_gff, SS_count):
 
 				if len(contained_exons) >= 1:
 
-					print contained_exons
+					print chrom, start, end, contained_exons
 
 				estart = "_".join([chrom, str(int(start)-1)])
 				eend = "_".join([chrom, end])
