@@ -22,6 +22,7 @@ def main(gencode_gff, SS_count):
 	exons_5 = defaultdict(set)
 	exons_3 =  defaultdict(set)
 
+	transcript_exons = defaultdict(list)
 	gene_estarts = defaultdict(set)
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
@@ -32,11 +33,24 @@ def main(gencode_gff, SS_count):
 
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
 
-			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
-
 			if feature == "exon":
 
-				gene_estarts[gene_id].add(int(start))
+				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
+
+				transcript_exons[transcript_id].add(row)
+
+
+	for i in transcript_exons.items(): #Avoid TSS (+) / TES (-)
+
+		transcript, exons = i
+
+		for row in exons[1:]:
+
+			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
+
+			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
+
+			gene_estarts[gene_id].add(int(start))
 
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
