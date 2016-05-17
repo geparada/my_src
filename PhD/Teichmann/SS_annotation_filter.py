@@ -25,7 +25,11 @@ def main(gencode_gff, SS_count):
 	transcript_exons = defaultdict(list)
 	gene_estarts = defaultdict(set)
 
-	transcript_stars = {}
+	transcript_estars = {}
+	transcript_eends = {}
+	transcripts = set([])
+
+	transcript_gene = {}
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):  #Avoid TSS (+) / TES (-)
 
@@ -35,14 +39,37 @@ def main(gencode_gff, SS_count):
 
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
 
-			if feature == "transcript":
+			if feature == "exon":
 
 
 				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
+				gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
-				transcript_stars[transcript_id] = int(start)
+				transcript_estars[transcript_id] = int(start)
+				transcript_eends[transcript_id] = int(end)
+				transcripts.add(transcript_id)
+
+				transcript_gene[transcript_id] = gene_id
 
 				# transcript_exons[transcript_id].append(row)
+
+	gene_introns = defaultdict(set)
+
+	for t in transcripts:
+
+		estarts = transcript_estars[t]
+		eends = transcript_eends[t]
+
+		estarts.sort()
+		eends.sort()
+
+		for istart, iend in zip(eends, estarts[1:]):
+
+			intron = (istart, iend)
+			gene = transcript_gene[t]
+
+			gene_introns[gene].add(intron)
+
 
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
@@ -58,11 +85,23 @@ def main(gencode_gff, SS_count):
 				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
 				gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
-				if transcript_stars[transcript_id] != start:
+				introns =  gene_introns[gene_id]
 
-					gene_estarts[gene_id].add(int(start))
+				# if transcript_stars[transcript_id] != start:
 
+				# 	gene_estarts[gene_id].add(int(start))
 
+				contain_intron = False
+
+				for i in introns:
+
+					istart, iend = i
+
+					if start<istart and iend>end:
+
+						contain_intron = True
+
+						print chrom, start, end, i
 
 
 
