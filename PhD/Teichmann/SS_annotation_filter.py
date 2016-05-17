@@ -42,7 +42,7 @@ def main(gencode_gff, SS_count):
 			if feature == "exon":
 
 
-				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
+				transcript_id = IDs.split(";")[1].split(" ")[2].strip('",')
 				gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
 				transcript_estars[transcript_id].append(int(start))
@@ -70,8 +70,6 @@ def main(gencode_gff, SS_count):
 
 			gene_introns[gene].add(intron)
 
-
-			print gene, intron, t
 
 
 
