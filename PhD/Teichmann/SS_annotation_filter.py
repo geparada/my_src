@@ -37,7 +37,7 @@ def main(gencode_gff, SS_count):
 
 				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
 
-				transcript_exons[transcript_id].add(row)
+				transcript_exons[transcript_id].append(row)
 
 
 	for i in transcript_exons.items(): #Avoid TSS (+) / TES (-)
