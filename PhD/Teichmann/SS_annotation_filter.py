@@ -97,6 +97,8 @@ def main(gencode_gff, SS_count):
 
 				for i in introns:
 
+					print introns
+
 					istart, iend = i
 
 					if start<istart and iend>end:
@@ -162,7 +164,7 @@ def main(gencode_gff, SS_count):
 				transcript = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 				exon = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 
-				#transcripts[transcript].append(exon)
+				transcripts[transcript].append(exon)
 
 
 	max_e_5s = {}
