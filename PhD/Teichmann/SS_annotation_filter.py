@@ -145,24 +145,21 @@ def main(gencode_gff, SS_count):
 			max_e_3, max_e_3_count = max_e_5s[estart]
 			max_e_5, max_e_5_count = max_e_3s[eend]
 
-			if eend=="X_152340380":
-				print max_e_3, max_e_3_count, eend, max_e_5==eend
 
+			if  max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0:
 
-			#if  max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0:
-
-			# 	filtered_exons.append(e)
+			 	filtered_exons.append(e)
 
 			# elif max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0:
 			#  	print e
 
-		# if len(filtered_exons)>=0:
+		if len(filtered_exons)>=0:
 
-		# 	print transcritp
+		 	print transcritp
 
-		# 	for e in filtered_exons:
+			for e in filtered_exons:
 
-		# 		print e
+				print e
 
 
 
