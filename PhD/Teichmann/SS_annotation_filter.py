@@ -27,7 +27,6 @@ def main(gencode_gff, SS_count):
 
 	transcript_estars = defaultdict(list)
 	transcript_eends = defaultdict(list)
-	transcripts = set([])
 
 	transcript_gene = {}
 
@@ -51,7 +50,6 @@ def main(gencode_gff, SS_count):
 
 				transcript_gene[transcript_id] = gene_id
 
-				# transcript_exons[transcript_id].append(row)
 
 	gene_introns = defaultdict(set)
 
@@ -83,15 +81,12 @@ def main(gencode_gff, SS_count):
 
 			if feature == "exon":
 
+				chrom = chrom.strip("chr")
+
 				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
 				gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
 				introns =  gene_introns[gene_id]
-
-
-				# if transcript_stars[transcript_id] != start:
-
-				# 	gene_estarts[gene_id].add(int(start))
 
 				contain_intron = False
 
@@ -103,66 +98,20 @@ def main(gencode_gff, SS_count):
 
 						contain_intron = True
 
-						print chrom, start, end, istart, iend 
+				
+				if contain_intron==False:
 
 
+					estart = "_".join([chrom, str(int(start)-1)])
+					eend = "_".join([chrom, end])
 
-	# for i in transcript_exons.items(): #Avoid TSS (+) / TES (-)
+					exons_5[estart].add((eend,  SS_counts[eend]))
+					exons_3[eend].add((estart, SS_counts[estart]))
 
-	# 	transcript, exons = i
+					transcript = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
+					exon = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 
-	# 	for row in exons[1:]:
-
-	# 		chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
-
-	# 		gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
-
-	# 		gene_estarts[gene_id].add(int(start))
-
-
-	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
-
-		if row[0][0]!='#':
-
-			pre_row = row
-
-			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
-
-			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
-
-			chrom = chrom.strip("chr")
-
-			if feature == "transcript":
-
-				transcript = " ".join(row)
-
-			if feature == "exon":
-
-
-				this_gene_estarts = gene_estarts[gene_id]
-
-				contained_exons = []
-
-				# for es in this_gene_estarts:
-
-				# 	if es > int(start) and es < int(end):
-
-				# 		contained_exons.append(es)
-
-				# if len(contained_exons) >= 1:
-
-				# 	print chrom, start, end, contained_exons
-
-				estart = "_".join([chrom, str(int(start)-1)])
-				eend = "_".join([chrom, end])
-
-				exons_5[estart].add((eend,  SS_counts[eend]))
-				exons_3[eend].add((estart, SS_counts[estart]))
-
-				transcript = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
-				exon = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
-
-				transcripts[transcript].append(exon)
+					transcripts[transcript].append(exon)
 
 
 	max_e_5s = {}
@@ -174,7 +123,7 @@ def main(gencode_gff, SS_count):
 		e_3 =  max(e_3_counts,key=lambda item:item[1])
 		max_e_5s[e_5] = e_3
 
-		#print e_3, e_3_counts
+		print e_3, e_3_counts
 
 	for i in exons_3.items():
 
