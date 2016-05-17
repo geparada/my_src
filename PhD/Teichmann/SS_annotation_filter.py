@@ -46,7 +46,6 @@ def main(gencode_gff, SS_count):
 
 				transcript_estars[transcript_id].append(int(start))
 				transcript_eends[transcript_id].append(int(end))
-				transcripts.add(transcript_id)
 
 				transcript_gene[transcript_id] = gene_id
 
