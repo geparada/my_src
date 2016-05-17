@@ -36,7 +36,7 @@ def main(gencode_gff, SS_count):
 
 			if feature == "exon":
 
-				gene_estarts[gene_id].add(int(end))
+				gene_estarts[gene_id].add(int(start))
 
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
