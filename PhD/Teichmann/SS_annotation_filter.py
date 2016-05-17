@@ -97,14 +97,13 @@ def main(gencode_gff, SS_count):
 
 				for i in introns:
 
-
 					istart, iend = i
 
-					if int(start)<istart and iend>int(end):
+					if int(start)<istart and iend<int(end):
 
 						contain_intron = True
 
-						print chrom, start, end, istart, iend
+						print chrom, start, end, istart, iend, 
 
 
 
