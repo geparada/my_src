@@ -22,11 +22,32 @@ def main(gencode_gff, SS_count):
 	exons_5 = defaultdict(set)
 	exons_3 =  defaultdict(set)
 
+	gene_estarts = defaultdict(set)
+
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
 
 		if row[0][0]!='#':
 
+			pre_row = row
+
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
+
+			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
+
+			if feature == "exon":
+
+				gene_estarts[gene_id].add(int(end))
+
+
+	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
+
+		if row[0][0]!='#':
+
+			pre_row = row
+
+			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
+
+			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
 			chrom = chrom.strip("chr")
 
@@ -35,6 +56,21 @@ def main(gencode_gff, SS_count):
 				transcript = " ".join(row)
 
 			if feature == "exon":
+
+
+				this_gene_estarts = gene_estarts[gene_id]
+
+				contained_exons = []
+
+				for es in this_gene_estarts:
+
+					if es > int(start) & es < int(end):
+
+						contained_exons.append()
+
+				if len(contained_exons) >= 1:
+
+					print contained_exons
 
 				estart = "_".join([chrom, str(int(start)-1)])
 				eend = "_".join([chrom, end])
@@ -81,8 +117,8 @@ def main(gencode_gff, SS_count):
 			max_e_3, max_e_3_count = max_e_5s[estart]
 			max_e_5, max_e_5_count = max_e_3s[eend]
 
-			if eend=="11_115490769":
-				print max_e_3, max_e_3_count, eend, (max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0)
+			# if eend=="11_115490769":
+			# 	print max_e_3, max_e_3_count, eend, (max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0)
 
 
 			#if  max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0:
