@@ -141,15 +141,15 @@ def main(gencode_gff, SS_count):
 
 				contained_exons = []
 
-				for es in this_gene_estarts:
+				# for es in this_gene_estarts:
 
-					if es > int(start) and es < int(end):
+				# 	if es > int(start) and es < int(end):
 
-						contained_exons.append(es)
+				# 		contained_exons.append(es)
 
-				if len(contained_exons) >= 1:
+				# if len(contained_exons) >= 1:
 
-					print chrom, start, end, contained_exons
+				# 	print chrom, start, end, contained_exons
 
 				estart = "_".join([chrom, str(int(start)-1)])
 				eend = "_".join([chrom, end])
