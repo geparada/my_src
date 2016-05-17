@@ -25,8 +25,8 @@ def main(gencode_gff, SS_count):
 	transcript_exons = defaultdict(list)
 	gene_estarts = defaultdict(set)
 
-	transcript_estars = {}
-	transcript_eends = {}
+	transcript_estars = defaultdict(list)
+	transcript_eends = defaultdict(list)
 	transcripts = set([])
 
 	transcript_gene = {}
@@ -45,8 +45,8 @@ def main(gencode_gff, SS_count):
 				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
 				gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
-				transcript_estars[transcript_id] = int(start)
-				transcript_eends[transcript_id] = int(end)
+				transcript_estars[transcript_id].append(int(start))
+				transcript_eends[transcript_id].append(int(end))
 				transcripts.add(transcript_id)
 
 				transcript_gene[transcript_id] = gene_id
