@@ -71,6 +71,9 @@ def main(gencode_gff, SS_count):
 			gene_introns[gene].add(intron)
 
 
+			print gene, intron, t
+
+
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
 
@@ -87,7 +90,6 @@ def main(gencode_gff, SS_count):
 
 				introns =  gene_introns[gene_id]
 
-				print introns
 
 				# if transcript_stars[transcript_id] != start:
 
