@@ -87,6 +87,8 @@ def main(gencode_gff, SS_count):
 
 				introns =  gene_introns[gene_id]
 
+				print introns
+
 				# if transcript_stars[transcript_id] != start:
 
 				# 	gene_estarts[gene_id].add(int(start))
@@ -160,7 +162,7 @@ def main(gencode_gff, SS_count):
 				transcript = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 				exon = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 
-				transcripts[transcript].append(exon)
+				#transcripts[transcript].append(exon)
 
 
 	max_e_5s = {}
