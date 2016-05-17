@@ -84,13 +84,16 @@ def main(gencode_gff, SS_count):
 
 				filtered_exons.append(e)
 
-		if len(filtered_exons)>=0:
-
-			print transcritp
-
-			for e in filtered_exons:
-
+			else:
 				print e
+
+		# if len(filtered_exons)>=0:
+
+		# 	print transcritp
+
+		# 	for e in filtered_exons:
+
+		# 		print e
 
 
 
