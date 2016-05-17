@@ -150,14 +150,16 @@ def main(gencode_gff, SS_count):
 
 			 	filtered_exons.append(e)
 
+			 	print eend, estart, max_e_5_count, max_e_3_count
 
-		if len(filtered_exons)>=0:
 
-		 	print transcritp
+		# if len(filtered_exons)>=0:
 
-			for e in filtered_exons:
+		#  	print transcritp
 
-				print e
+		# 	for e in filtered_exons:
+
+		# 		print e
 
 
 
