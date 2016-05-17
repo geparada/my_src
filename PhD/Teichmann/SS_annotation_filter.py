@@ -84,7 +84,7 @@ def main(gencode_gff, SS_count):
 
 				filtered_exons.append(e)
 
-			else:
+			elif max_e_3s[eend]==estart and  max_e_5_count > 0 and max_e_3_count > 0:
 				print e
 
 		# if len(filtered_exons)>=0:
