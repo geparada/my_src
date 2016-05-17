@@ -97,11 +97,10 @@ def main(gencode_gff, SS_count):
 
 				for i in introns:
 
-					print introns
 
 					istart, iend = i
 
-					if start<istart and iend>end:
+					if int(start)<istart and iend>int(end):
 
 						contain_intron = True
 
