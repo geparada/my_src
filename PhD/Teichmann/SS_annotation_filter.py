@@ -155,7 +155,7 @@ def main(gencode_gff, SS_count):
 
 
 
-		# if len(filtered_exons)>=0:
+		# if len(filtered_exons)>0:
 
 		#  	print transcritp
 
