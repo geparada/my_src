@@ -57,6 +57,8 @@ def main(gencode_gff, SS_count):
 		e_3 =  max(e_3_counts,key=lambda item:item[1])
 		max_e_5s[e_5] = e_3
 
+		print e_3, e_3_counts
+
 	for i in exons_3.items():
 
 		e_3, e_5_counts = i
@@ -84,8 +86,8 @@ def main(gencode_gff, SS_count):
 
 				filtered_exons.append(e)
 
-			elif max_e_3s[eend]==estart and  max_e_5_count > 0 and max_e_3_count > 0:
-				print e
+			# elif max_e_3s[eend]==estart and  max_e_5_count > 0 and max_e_3_count > 0:
+			# 	print e
 
 		# if len(filtered_exons)>=0:
 
