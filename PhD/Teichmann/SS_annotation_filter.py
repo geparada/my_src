@@ -66,7 +66,7 @@ def main(gencode_gff, SS_count):
 
 					if es > int(start) & es < int(end):
 
-						contained_exons.append()
+						contained_exons.append(es)
 
 				if len(contained_exons) >= 1:
 
