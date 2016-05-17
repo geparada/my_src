@@ -150,7 +150,7 @@ def main(gencode_gff, SS_count):
 
 			 	filtered_exons.append(e)
 
-			 	print eend, estart, max_e_5_count, max_e_3_count
+			 	print "A", eend, estart, max_e_5_count, max_e_3_count
 
 
 		# if len(filtered_exons)>=0:
