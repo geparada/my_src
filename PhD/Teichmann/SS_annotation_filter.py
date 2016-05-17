@@ -25,6 +25,26 @@ def main(gencode_gff, SS_count):
 	transcript_exons = defaultdict(list)
 	gene_estarts = defaultdict(set)
 
+	transcript_stars = {}
+
+	for row in csv.reader(open(gencode_gff), delimiter = '\t'):  #Avoid TSS (+) / TES (-)
+
+		if row[0][0]!='#':
+
+			pre_row = row
+
+			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
+
+			if feature == "transcript":
+
+
+				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
+
+				transcript_stars[transcript_id] = int(start)
+
+				# transcript_exons[transcript_id].append(row)
+
+
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
 
 		if row[0][0]!='#':
@@ -36,21 +56,27 @@ def main(gencode_gff, SS_count):
 			if feature == "exon":
 
 				transcript_id = IDs.split(";")[1].split(" ")[1].strip('",')
+				gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
-				transcript_exons[transcript_id].append(row)
+				if transcript_stars[transcript_id] != start:
+
+					gene_estarts[gene_id].add(int(start))
 
 
-	for i in transcript_exons.items(): #Avoid TSS (+) / TES (-)
 
-		transcript, exons = i
 
-		for row in exons[1:]:
 
-			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
+	# for i in transcript_exons.items(): #Avoid TSS (+) / TES (-)
 
-			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
+	# 	transcript, exons = i
 
-			gene_estarts[gene_id].add(int(start))
+	# 	for row in exons[1:]:
+
+	# 		chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
+
+	# 		gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
+
+	# 		gene_estarts[gene_id].add(int(start))
 
 
 	for row in csv.reader(open(gencode_gff), delimiter = '\t'):
