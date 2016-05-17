@@ -122,7 +122,6 @@ def main(gencode_gff, SS_count):
 		e_3 =  max(e_3_counts,key=lambda item:item[1])
 		max_e_5s[e_5] = e_3
 
-		print e_3, e_3_counts
 
 	for i in exons_3.items():
 
@@ -146,8 +145,8 @@ def main(gencode_gff, SS_count):
 			max_e_3, max_e_3_count = max_e_5s[estart]
 			max_e_5, max_e_5_count = max_e_3s[eend]
 
-			# if eend=="11_115490769":
-			# 	print max_e_3, max_e_3_count, eend, (max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0)
+			if eend=="X_152340380":
+				print max_e_3, max_e_3_count, eend, max_e_5==eend
 
 
 			#if  max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0:
@@ -170,4 +169,6 @@ def main(gencode_gff, SS_count):
 if __name__ == '__main__':
 	main(sys.argv[1], sys.argv[2])
 
+#
+#('X_152340197', 159) set([('X_152340380', 130), ('X_152340197', 159)])
 #chr1    HAVANA  exon    3205901 3207317 .       -       .       gene_id "ENSMUSG00000051951.5"; transcript_id "ENSMUST00000162897.1"; gene_type "protein_coding"; gene_status "KNOWN"; gene_name "Xkr4"; transcript_type "processed_transcript"; transcript_status "KNOWN"; transcript_name "Xkr4-003"; exon_number 2; exon_id "ENSMUSE00000866652.1"; level 2; transcript_support_level "1"; havana_gene "OTTMUSG00000026353.2"; havana_transcript "OTTMUST00000086625.1";
