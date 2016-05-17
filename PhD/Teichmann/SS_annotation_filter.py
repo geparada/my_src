@@ -146,7 +146,7 @@ def main(gencode_gff, SS_count):
 			max_e_5, max_e_5_count = max_e_3s[eend]
 
 
-			if  max_e_5==eend and max_e_3==estart and  max_e_5_count > 1000 and max_e_3_count > 1000:
+			if  max_e_5==eend and max_e_3==estart and  max_e_5_count > 0 and max_e_3_count > 0:
 
 			 	filtered_exons.append(e)
 
