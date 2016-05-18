@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
 			exon_number = "E" + exon_number
 
-			print exon, gene, exon_number, CV_phis, np.mean(rpkms), ",".join(ratios), ",".join(map(str, phis)), ",".join(map(str, rpkms))
+			#print exon, gene, exon_number, CV_phis, np.mean(rpkms), ",".join(ratios), ",".join(map(str, phis)), ",".join(map(str, rpkms))
 
 
 # python ~/my_src/PhD/Teichmann/DEXSeq_count_merge.py gencode.vM9.chr_patch_hapl_scaff.annotation.DEXseq.gff.sed i2m_* | sort > i2m__phi_CV.txt
