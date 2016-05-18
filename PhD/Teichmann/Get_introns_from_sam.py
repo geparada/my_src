@@ -34,7 +34,6 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 				cigar = row[5]
 				seq = row[9]
 
-				print row
 						
 				aux_str = ''
 				cigar_vars = [] 
@@ -99,3 +98,7 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 		cov = len(seqs)
 
 		print intron, cov
+
+
+if __name__ == '__main__':
+	main(sys.argv[1],  int(sys.argv[2]))
