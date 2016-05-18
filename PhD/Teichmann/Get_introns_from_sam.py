@@ -83,7 +83,7 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 					istart = e5e
 					iend = e3s
 					ilen = iend - istart
-					intron = "\t".join([chr, str(istart), str(iend)])
+					intron = " ".join([chr, str(istart), str(iend)])
 
 
 
