@@ -97,7 +97,13 @@ if __name__ == '__main__':
 				phi= float(e)/float(g)
 				gene_lenght = gene_lenghts[gene]
 
-				rpkm = (10**9 * float(g))/ (float(gene_lenght) * float(lib_size))
+				try:
+
+					rpkm = (10**9 * float(g))/ (float(gene_lenght) * float(lib_size))
+
+				except ZeroDivisionError:
+
+					print g, gene_lenght, lib_size
 
 
 				#if rpkm >= 10 and e >= 10:
@@ -118,7 +124,7 @@ if __name__ == '__main__':
 			print exon, gene, exon_number, CV_phis, np.mean(rpkms), ",".join(ratios), ",".join(map(str, phis)), ",".join(map(str, rpkms))
 
 
-# python ~/my_src/PhD/Teichmann/DEXSeq_count_merge.py gencode.vM9.chr_patch_hapl_scaff.annotation.DEXseq.gff.sed i2m_* | sort 
+# python ~/my_src/PhD/Teichmann/DEXSeq_count_merge.py gencode.vM9.chr_patch_hapl_scaff.annotation.DEXseq.gff.sed i2m_* | sort > i2m__phi_CV.txt
 
 
 
