@@ -33,6 +33,8 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 				start = int(row[3]) - 1             #Sam es 1 referenciado y es mas comodo trabajar en cordeneadas 0 refereciadas
 				cigar = row[5]
 				seq = row[9]
+
+				print row
 						
 				aux_str = ''
 				cigar_vars = [] 
@@ -84,7 +86,6 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 					ilen = iend - istart
 					intron = "\t".join([chr, str(istart), str(iend)])
 
-					print intron
 
 
 					if e5len >= anchor <= e3len:
