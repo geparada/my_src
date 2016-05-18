@@ -84,6 +84,8 @@ def main(sam, anchor):          #hay que indicar s es Rd1 o Rd2
 					ilen = iend - istart
 					intron = "\t".join([chr, str(istart), str(iend)])
 
+					print intron
+
 
 					if e5len >= anchor <= e3len:
 
