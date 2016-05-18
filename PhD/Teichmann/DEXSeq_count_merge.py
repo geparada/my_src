@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
 				except ZeroDivisionError:
 
-					print g, gene_lenght, lib_size
+					print g, gene_lenght, lib_size, gene
 
 
 				#if rpkm >= 10 and e >= 10:
