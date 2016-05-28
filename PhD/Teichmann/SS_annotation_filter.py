@@ -147,8 +147,12 @@ def main(gencode_gff, SS_count):
 			max_e_3, max_e_3_count = max_e_5s[estart]
 			max_e_5, max_e_5_count = max_e_3s[eend]
 
+			gene_id = IDs.split(";")[0].split(" ")[1].strip('",')
 
-			if start == "20384521" and end ==  "20384579":
+
+			# if start == "20384521" and end ==  "20384579":
+
+			if gene_id=="ENSMUSG00000024659.14":
 
 				print chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs
 
