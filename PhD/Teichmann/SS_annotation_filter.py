@@ -152,9 +152,9 @@ def main(gencode_gff, SS_count):
 
 			# if start == "20384521" and end ==  "20384579":
 
-			if gene_id=="ENSMUSG00000056201.6":
+			# if gene_id=="ENSMUSG00000056201.6":
 
-				print chrom, start, end, max_e_5, estart, max_e_5_count,  max_e_3, eend, max_e_3_count, max_e_5_count > 0, max_e_3_count > 0
+			# 	print chrom, start, end, max_e_5, estart, max_e_5_count,  max_e_3, eend, max_e_3_count, max_e_5_count > 0, max_e_3_count > 0
 
 
 
@@ -165,13 +165,13 @@ def main(gencode_gff, SS_count):
 
 
 
-		# if len(filtered_exons)>0:
+		if len(filtered_exons)>0:
 
-		#  	print transcritp
+		  	print transcritp
 
-		# 	for fe in filtered_exons:
+		 	for fe in filtered_exons:
 
-		# 		print fe
+				print fe
 
 
 
