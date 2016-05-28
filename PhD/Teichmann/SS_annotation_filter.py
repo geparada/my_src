@@ -154,7 +154,7 @@ def main(gencode_gff, SS_count):
 
 			if gene_id=="ENSMUSG00000056201.6":
 
-				print chrom, start, end, max_e_5, estart, max_e_3, eend
+				print chrom, start, end, max_e_5, estart, max_e_5_count,  max_e_3, eend, max_e_3_count
 
 
 
