@@ -148,7 +148,7 @@ def main(gencode_gff, SS_count):
 
 			if start == "20384521" and end ==  "20384579":
 
-				print row
+				print e
 
 
 
