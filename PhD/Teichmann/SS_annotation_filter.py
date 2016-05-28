@@ -146,9 +146,9 @@ def main(gencode_gff, SS_count):
 			max_e_5, max_e_5_count = max_e_3s[eend]
 
 
-			if start == "20384521" and end ==  "20384579":
+			# if start == "20384521" and end ==  "20384579":
 
-				print e
+			print e
 
 
 
