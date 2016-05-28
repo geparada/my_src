@@ -78,6 +78,8 @@ def main(gencode_gff, SS_count):
 
 			chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs = row
 
+			print row
+
 			if feature == "exon":
 
 				chrom = chrom.strip("chr")
@@ -111,6 +113,7 @@ def main(gencode_gff, SS_count):
 					exon = "\t".join([chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs])
 
 					transcripts[transcript].append(exon)
+
 
 
 	max_e_5s = {}
@@ -148,7 +151,7 @@ def main(gencode_gff, SS_count):
 
 			# if start == "20384521" and end ==  "20384579":
 
-			print e
+			# print e
 
 
 
