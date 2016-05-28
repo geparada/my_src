@@ -152,7 +152,7 @@ def main(gencode_gff, SS_count):
 
 			# if start == "20384521" and end ==  "20384579":
 
-			if gene_id=="ENSMUSG00000024659.14":
+			if gene_id=="ENSMUSG00000056201.6":
 
 				print chrom, gff_file, feature, start, end, dot1, strand, dot2, IDs
 
