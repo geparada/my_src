@@ -1,0 +1,28 @@
+
+CUE="normal" # default queue as normal.
+
+while getopts "q:m:s:n:p:h" opt; do
+   case $opt in
+      q) CUE=$OPTARG ;; # Which queue do submit to.
+      m) MEM=$OPTARG ;; # How much mem to use.
+      s) SCRIPT=$OPTARG ;; # Script name.
+      n) NAME=$OPTARG ;; # Extension for job and output files.
+#      p) PROCESSORS=$OPTARG ;; #Number of processors
+      h) echo -e "Flags:\n-s\t for script.sh\n-m\t for memory requested\n-q\t to select queue\n-n\t to add extension\nAdd up to three other variables at the end to be parsed to script.\n" >&2 ;;
+      :) echo "Option -$OPTARG requires an argument." >&2 ;;
+   esac
+done
+
+
+NAME=$NAME.%J # Adds job number to name extension.
+
+shift $(( OPTIND - 1 )) # Resets command line interface count. 
+
+if [ -z "$SCRIPT" ]; then echo "ERROR: Specify script with -s." >&2 
+exit ; fi # Check that script exists.
+
+if [ -z "$MEM" ]; then echo "ERROR: Specify memory with -m." >&2
+exit ; fi # Check that memory is specified.
+
+bsub -n1 -R"span[hosts=1]" -c 99999 -G team_hemberg -q $CUE -o $TEAM/temp.logs/output.$NAME -e $TEAM/temp.logs/error.$NAME -R"select[mem>$MEM] rusage[mem=$MEM]" -M$MEM $SCRIPT  $1 $2 $3
+

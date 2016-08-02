@@ -1,30 +1,29 @@
 #!/bin/bash
 
 Genome="$TEAM/Celegans_genome_ENSEMBL/CE10/ce10.fa"
-Genome_chrom_sizes="/lustre/scratch108/compgen/team218/gp7/Genome/ce10/ce10_pEM975.chrom.sizes"
+Genome_chrom_sizes="/lustre/scratch108/compgen/team218/gp7/Genome/ce10/ce10_sensor_piRNA_mjIs144.chrom.sizes"
+FILES="/nfs/users/nfs_t/tdd/lustre/projects/emb4/out/"
 
 
+#samtools merge - $FILES/RNA_SX1316*.bam | samtools sort - WT &
+#samtools merge - $FILES/RNA_SX2929*.bam | samtools sort - emb4a &
+#samtools merge - $FILES/RNA_SX2930*.bam | samtools sort - emb4b &
+#samtools merge - $FILES/RNA_SX2930*.bam | samtools sort - emb4 &
+#samtools merge - $FILES/RNA_SX2000*.bam | samtools sort - hrde1 &
 
 
+ for i in $(ls *.bam)
 
-#samtools merge - ../Index12.T40.bam ../Index4.T40.bam ../Index8.T40.bam | samtools sort -o - WT_sorted > WT.bam &
-#samtools merge - ../Index1.T40.bam ../Index5.T40.bam ../Index9.T40.bam | samtools sort -o - emb4a_sorted > emb4a.bam &
-#samtools merge - ../Index10.T40.bam ../Index2.T40.bam ../Index6.T40.bam | samtools sort -o - emb4b_sorted > emb4b.bam &
-#samtools merge - ../Index11.T40.bam ../Index3.T40.bam ../Index7.T40.bam | samtools sort -o - hrde1_sorted > hrde1.bam &
+  do 
+  	name=$(basename "$i" .bam)
+  	echo $name
+  	bamToBed -i $name.bam > $name.bed
+  	bedItemOverlapCount $TEAM/Celegans_genome_ENSEMBL/CE10/ce10.fa $name.bed chromSize=$TEAM/Celegans_genome_ENSEMBL/CE10/ce10_pEM975.chrom.sizes | sort -k1,1 -k2,2n > $name.BedGraph
 
-
- # for i in $(ls *.bam)
-
- # do 
- # 	name=$(basename "$i" .bam)
- # 	echo $name
- # 	bamToBed -i $name.bam > $name.bed
- # 	bedItemOverlapCount $TEAM/Celegans_genome_ENSEMBL/CE10/ce10.fa $name.bed chromSize=$TEAM/Celegans_genome_ENSEMBL/CE10/ce10_pEM975.chrom.sizes | sort -k1,1 -k2,2n > $name.BedGraph
-
- # done
+ done
 
 
-for i in $(echo emb4a emb4b hrde1)
+for i in $(echo emb4 emb4a emb4b hrde1)
 
 	do 
 		echo $i
