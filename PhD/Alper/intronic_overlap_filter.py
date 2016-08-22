@@ -6,8 +6,8 @@ from collections import defaultdict
 
 def main(intronic_GTF, exonic_GTF, ENSEMBL_GTF):
 
-	exon_out=open('WS220_gurdon_curated_exons_genes_pEM975_filtered.gtf', 'w+')
-	intron_out=open('WS220_gurdon_curated_introns_genes_pEM975_filtered.gtf', 'w+')
+	exon_out=open('WS220_gurdon_curated_exons_genes_sensor_filtered.gtf', 'w+')
+	intron_out=open('WS220_gurdon_curated_introns_genes_sensor_filtered.gtf', 'w+')
 
 
 	exons_Ensmbl = defaultdict(list)
@@ -38,11 +38,11 @@ def main(intronic_GTF, exonic_GTF, ENSEMBL_GTF):
 
 			#print exon
 
-	for exon in exons_Ensmbl["chrX"]:
+	# for exon in exons_Ensmbl["chrX"]:
 
-		intron = HTSeq.GenomicInterval( "chrX",	15174966, 15176772, ".")
+	# 	intron = HTSeq.GenomicInterval( "chrX",	15174966, 15176772, ".")
 
-		intron
+	# 	intron
 
 	for row in csv.reader(open(intronic_GTF), delimiter = '\t'):
 

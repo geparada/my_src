@@ -263,3 +263,5 @@ if __name__ == '__main__':
 
 
 # 15 82109521 82109538 76.6534370656 []
+
+#python ~/my_src/PhD/Teichmann/U2_score_DEXSeq.py GRCm38.p4.genome.fa gencode.vM9.chr_patch_hapl_scaff.annotation.gtf U2.GT_AG.donor.pwm U2.GT_AG.acceptor.pwm gencode.vM9.chr_patch_hapl_scaff.annotation.DEXseq.gff.sed
