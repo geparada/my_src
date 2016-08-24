@@ -38,7 +38,7 @@
 #All the variables values have to be strings, that is mean that they have to be within " "
 
 Lab="Miska"
-Project="EMB4_branch9"
+Project="EMB4"
 Owner="Alper"
 email="aa747@cam.ac.uk"
 
@@ -51,9 +51,9 @@ Genome="ce10"
 #Do not finish path with /
 #Use absolute paths
 
-input_dir="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub/Test"
-output_dir="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub/Test"
-index="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub/Test/index.txt"
+input_dir="/lustre/scratch108/compgen/team218/gp7/EISA/Akay_2016/UCSC_Hub"
+output_dir="/lustre/scratch108/compgen/team218/gp7/EISA/Akay_2016/UCSC_Hub"
+index="/lustre/scratch108/compgen/team218/gp7/EISA/Akay_2016/UCSC_Hub/index.txt"
 
 #HTTP server info
 #FTP it is slower, do not use it
@@ -121,7 +121,7 @@ while read i;
 
 
 
-fetchchromsizes $Genome > $Genome.chromsizes
+fetchChromSizes $Genome > $Genome.chromsizes
 
 echo	hub ${Lab}_Lab_${Owner}	>	hub.txt
 echo	shortLabel  ${Lab}/${Owner}/$Project	>>	hub.txt
