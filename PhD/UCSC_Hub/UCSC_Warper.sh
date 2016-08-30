@@ -211,7 +211,7 @@ then
 			awk '$1!="sensor_piRNA_mjIs144"' $Type/Temp/$name.bedGraph > $Type/Temp/$name.bedGraph.filter
 			bedGraphToBigWig $Type/Temp/$name.bedGraph.filter $Genome.chromsizes $Type/Temp/$name.bw
 
-			bedGraphToBigWig $Type/Temp/$name.bedGraph.filter $Genome.chromsizes $Type/Temp/$name.bw
+			#bedGraphToBigWig $Type/Temp/$name.bedGraph $Genome.chromsizes $Type/Temp/$name.bw
 			
 			mv $Type/Temp/$name.bw bw
 
