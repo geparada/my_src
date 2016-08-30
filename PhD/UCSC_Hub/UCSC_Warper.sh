@@ -38,7 +38,7 @@
 #All the variables values have to be strings, that is mean that they have to be within " "
 
 Lab="Miska"
-Project="EMB4"
+Project="EMB4_branch1"
 Owner="Alper"
 email="aa747@cam.ac.uk"
 
@@ -51,9 +51,9 @@ Genome="ce10"
 #Do not finish path with /
 #Use absolute paths
 
-input_dir="/lustre/scratch108/compgen/team218/gp7/EISA/Akay_2016/UCSC_Hub"
-output_dir="/lustre/scratch108/compgen/team218/gp7/EISA/Akay_2016/UCSC_Hub"
-index="/lustre/scratch108/compgen/team218/gp7/EISA/Akay_2016/UCSC_Hub/index.txt"
+input_dir="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub"
+output_dir="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub"
+index="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub/index.txt"
 
 #HTTP server info
 #FTP it is slower, do not use it
@@ -198,11 +198,11 @@ then
 
 			###### -split of bamtobed is the key!!
 
-			# samtools sort -o  $Type/$name.sort.bam $Type/$name.bam
-			# samtools index $Type/$name.sort.bam $Type/$name.sort.bam.bai
+			samtools sort -o  $Type/$name.sort.bam $Type/$name.bam
+			samtools index $Type/$name.sort.bam $Type/$name.sort.bam.bai
 
 
-			# bamToBed -i $Type/$name.sort.bam -split > $Type/Temp/$name.bed
+			bamToBed -i $Type/$name.sort.bam -split > $Type/Temp/$name.bed
 
 
 			sort -k1,1 $Type/Temp/$name.bed | bedItemOverlapCount $Genome -chromSize=$Genome.chromsizes stdin  > $Type/Temp/$name.bedGraph
@@ -211,9 +211,14 @@ then
 			awk '$1!="sensor_piRNA_mjIs144"' $Type/Temp/$name.bedGraph > $Type/Temp/$name.bedGraph.filter
 			bedGraphToBigWig $Type/Temp/$name.bedGraph.filter $Genome.chromsizes $Type/Temp/$name.bw
 
-			# bedGraphToBigWig $Type/Temp/$name.bedGraph.filter $Genome.chromsizes $Type/Temp/$name.bw
+			bedGraphToBigWig $Type/Temp/$name.bedGraph.filter $Genome.chromsizes $Type/Temp/$name.bw
 			
 			mv $Type/Temp/$name.bw bw
+
+			#rm $Type/Temp/*
+			#rm $Type/*.bam
+
+
 			# mv $Type/Temp/$name.sort.bam $Type
 			# mv $Type/Temp/$name.sort.bam.bai $Type
 
@@ -521,14 +526,14 @@ fi
 cd -
 
 
-rsync_ssh=$(echo ssh -i $Key)
+# rsync_ssh=$(echo ssh -i $Key)
 
-rsync -Pav -e 'ssh -i /Users/gp7/emx2_key.pem' $Lab $Server:$SSH_path
+# rsync -Pav -e 'ssh -i /Users/gp7/emx2_key.pem' $Lab $Server:$SSH_path
 
 
-hubCheck http://$Server$HTML_path/$Lab/$Owner/$Project/hub.txt
+# hubCheck http://$Server$HTML_path/$Lab/$Owner/$Project/hub.txt
 
-echo hubCheck http://${Server}${Server_path}/$Lab/$Owner/$Project/hub.txt
+# echo hubCheck http://${Server}${Server_path}/$Lab/$Owner/$Project/hub.txt
 
 
 

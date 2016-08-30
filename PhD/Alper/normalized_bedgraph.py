@@ -58,7 +58,7 @@ def main(bedgraph):
 	for index, row in bedgraph_df.iterrows():
 
 		chrom, start, end = index.split("-")
-		count_norm = row['count_norm']
+		count_norm = row['count_norm'] * 1000000000
 		out = map(str, [chrom, start, end, count_norm])
 		print  "\t".join(out)
 
