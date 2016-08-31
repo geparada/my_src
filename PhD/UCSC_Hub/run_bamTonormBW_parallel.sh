@@ -11,7 +11,7 @@ for i in $(ls *.bam)
 
 		name=$(basename $i .bam)
 
-		sed "s/name/$name/g" ~/my_src/PhD/UCSC_Hub/bamTonormBW.sh > bamTonormBW.$name.sh
+		sed "s/NAME/$name/g" ~/my_src/PhD/UCSC_Hub/bamTonormBW.sh > bamTonormBW.$name.sh
 
 		chmod +x bamTonormBW.$name.sh
 
