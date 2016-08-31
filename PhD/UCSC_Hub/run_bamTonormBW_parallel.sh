@@ -17,6 +17,6 @@ for i in $(ls *.bam)
 
 		chmod +x bamTonormBW.$name.sh
 
-		bash ~/submit.job -s ./bamTonormBW.$name.sh -m 50000 -q yesterday -n bw.$name.norm
+		bash ~/submit.job -s ./bamTonormBW.$name.sh -m 50000 -q normal -n bw.$name.norm
 
 	done
