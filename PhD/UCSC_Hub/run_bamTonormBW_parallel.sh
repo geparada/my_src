@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+Genome="ce10"
+fetchChromSizes $Genome > $Genome.chromsizes
+
 for i in $(ls *.bam)
 
 

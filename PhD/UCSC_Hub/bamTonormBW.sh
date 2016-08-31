@@ -1,7 +1,6 @@
 #!/bin/bash
 
 Genome="ce10"
-fetchChromSizes $Genome > $Genome.chromsizes
 
 
 
