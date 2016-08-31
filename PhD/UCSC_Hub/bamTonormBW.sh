@@ -5,7 +5,7 @@ Genome="ce10"
 
 
 
-samtools sort NAME.bam NAME.sort.bam
+samtools sort NAME.bam NAME.sort
 samtools index NAME.sort.bam NAME.sort.bam.bai
 
 bamToBed -i NAME.sort.bam -split > NAME.bed
