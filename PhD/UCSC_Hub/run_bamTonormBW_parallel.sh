@@ -23,6 +23,10 @@ for i in $(ls *.bam)
 
 		chmod +x bamTonormBW.$name.sh
 
+<<<<<<< HEAD
 		bash ~/submit.job -s ./bamTonormBW.$name.sh -m 80000 -q normal -n bw.$name.norm
+=======
+		bash ~/submit.job -s ./bamTonormBW.$name.sh -m 50000 -q normal -n bw.$name.norm
+>>>>>>> 4c02a22aa98a8b48eb1592cab5f99c689f202615
 
 	done
