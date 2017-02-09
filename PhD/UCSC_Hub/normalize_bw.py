@@ -4,7 +4,7 @@ import csv
 def main(bedGraph):
 
 
-	print sum(row[3] for row in csv.reader(open(bedGraph), delimiter = '\t'))
+	print sum(int(row[3]) for row in csv.reader(open(bedGraph), delimiter = '\t'))
 
 	# for row in csv.reader(open(bedGraph), delimiter = '\t'):
 
