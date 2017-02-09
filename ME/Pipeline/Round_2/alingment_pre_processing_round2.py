@@ -96,10 +96,14 @@ def main(sam, stranded):
 
 		if row!=[]:
 
+
+
 			try:
 
 
 				if row[0][0] != "@":
+
+
 					
 					read = row[0]
 					flag = int(row[1])
@@ -157,19 +161,21 @@ def main(sam, stranded):
 
 					for i in alinments:
 
+						
+
 						read, flag, tag, start, cigar, seq, qual = i
 						intron_tag, transcript_ID, anchors = tag.split("|")
 
-						anchor_ME = 0
+						ME_seq = ""
 
 						if len(anchors.split("_"))==2:
 							anchor_up, anchor_down = anchors.split("_")							
 
 						if len(anchors.split("_"))==3:
-							anchor_up, anchor_ME, anchor_down = anchors.split("_")
+							anchor_up, ME_seq, anchor_down = anchors.split("_")
 
 						anchor_up = int(anchor_up)
-						anchor_ME = int(anchor_ME)
+						anchor_ME = len(ME_seq)
 						anchor_down = int(anchor_down)
 
 						cigar_list = cigar_parser(cigar)

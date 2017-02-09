@@ -5,7 +5,7 @@ import re
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
-import wWigIO
+
 
 
 def main(row_ME):
@@ -24,6 +24,9 @@ def main(row_ME):
 		info = " ".join([SJ, len_micro_exon_seq_found, micro_exon_seq_found, number_of_micro_exons_matches, max_U2_scores, max_mean_conservations_vertebrates, max_mean_conservations_primates, micro_exons_coords, U2_scores, mean_conservations_vertebrates, mean_conservations_primates])
 
 		ME_reads[info].add(seq)
+
+
+		# if max_mean_conservations_primates != "None" and max_mean_conservations_vertebrates !="None": #I need to fix this
 
 		for ME in  micro_exons_coords.split(","):
 			ME_SJs[ME].add(SJ + "_" + micro_exon_seq_found)
@@ -89,8 +92,19 @@ def main(row_ME):
 			info.add((len_micro_exon_seq_found, micro_exon_seq_found))
 			SJ_number_of_micro_exons_matches.append(int(number_of_micro_exons_matches))
 			SJ_max_U2_scores.append(float(max_U2_scores))
+
+
+			# print SJ_info
+
+			# if max_mean_conservations_primates == "None":
+
+			# 	print SJ_info
+
+
 			SJ_max_mean_conservations_vertebrates.append(float(max_mean_conservations_vertebrates))
 			SJ_max_mean_conservations_primates.append(float(max_mean_conservations_primates))
+
+
 
 			SJ_chr, SJ_istart, SJ_iend = re.findall(r"[\w']+", SJ)
 			SJ_istart = int(SJ_istart)
@@ -99,8 +113,11 @@ def main(row_ME):
 			len_micro_exon_seq_found = int(len_micro_exon_seq_found)
 
 			SJ_len = SJ_iend - SJ_istart
-			Kmer = SJ_len - (len_micro_exon_seq_found+1)
-			P_ME = 1 - ( 1 - (float(1)/float(4**len_micro_exon_seq_found+4)))**Kmer	
+			Kmer = SJ_len - (len_micro_exon_seq_found+4)
+			P_ME = 1 - ( 1 - (float(1)/float(4**len_micro_exon_seq_found+4)))**Kmer
+
+
+			P_ME = 	1 - ( 1 - (float(1)/float(4**len_micro_exon_seq_found+4)))**( SJ_len - (len_micro_exon_seq_found+4))
 
 			P_MEs.append(P_ME)
 
@@ -111,6 +128,8 @@ def main(row_ME):
 				set_ME.add("|".join([a,b,c, d]))
 
 			ME.append(set_ME)
+
+
 
 		sum_total_coverage = sum(SJ_Coverages)
 		total_SJs = ",".join(SJs)
@@ -126,12 +145,21 @@ def main(row_ME):
 
 		len_micro_exon_seq_found, micro_exon_seq_found = list(info)[0]
 
-		#if 6 >= len(micro_exon_seq_found) >= 3:
 
-		#### Probabilidad ###
+		if total_ME!="":   #The empty fields refeclts no interesection between micro-exons present on the splice junctions
+
+			true_ME =  max([i.split("|")  for i in total_ME.split(",")], key=lambda item:float(item[1]))
 
 
-		out =  map(str, [sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min(P_MEs), total_ME])
+			ME, U2_scores, mean_conservations_vertebrates, mean_conservations_primates = true_ME
+
+			#if 6 >= len(micro_exon_seq_found) >= 3:
+
+			#### Probabilidad ###
+
+			# if total_ME!="":
+
+			out =  map(str, [ME, sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min(P_MEs), total_ME])
 		
 
 

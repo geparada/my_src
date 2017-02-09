@@ -131,7 +131,7 @@ echo	email ${email}	>>	hub.txt
 
 cat hub.txt
 
-echo	"genome ce10"	> genomes.txt
+echo	"genome $Genome"	> genomes.txt
 echo	"trackDb trackDb.txt"	>> 	genomes.txt
 
 cat genomes.txt
@@ -197,6 +197,18 @@ then
 
 
 			###### -split of bamtobed is the key!!
+
+			echo "@HD	VN:1.4	SO:coordinate" > $Type/$name.head
+
+			awk '{print "@SQ\tSN:"$1"\tLN:"$2}' $Genome.chromsizes >> $Type/$name.head
+
+			#samtools view $Type/$name.bam  > $Type/$name.sam
+
+			samtools view $Type/$name.bam | awk '{OFS="\t"; $3="chr"$3; print}' > $Type/$name.sam
+
+
+			cat $Type/$name.head $Type/$name.sam | samtools view -Sb - > $Type/$name.bam
+
 
 			samtools sort -o  $Type/$name.sort.bam $Type/$name.bam
 			samtools index $Type/$name.sort.bam $Type/$name.sort.bam.bai
@@ -293,7 +305,7 @@ then
 
 			#echo $name | grep -o -e'[0-9]\{3\}'
 			echo	>> trackDb.txt
-	        echo	track $name 	>> trackDb.txt
+	        echo	track $name_bw 	>> trackDb.txt
 	        echo	parent BW on 	>> trackDb.txt
 	        echo	bigDataUrl $Type/$name.bw 	>> trackDb.txt
 	        echo	shortLabel $short_name >> trackDb.txt

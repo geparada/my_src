@@ -70,6 +70,7 @@ def main(ME_centric, snp, non_canonical_introns):
 		############ SNP filter ###########
 
 		sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, P_ME, total_ME = row
+§									
 
 		len_micro_exon_seq_found = int(len_micro_exon_seq_found)
 		total_max_U2_scores = float(total_max_U2_scores)

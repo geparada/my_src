@@ -22,18 +22,21 @@ def Tagloader(fasta):
 
 	f.close()
 
+
+
+
 def main(ME_centric_filter3):
 
 	for row in csv.reader(open(ME_centric_filter3), delimiter = '\t'):
 
-		sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min_P_ME, total_ME, true_ME, score, is_annotated = row
+		ME, sum_total_coverage, total_SJs, total_coverages, len_micro_exon_seq_found, micro_exon_seq_found, total_number_of_micro_exons_matches, total_max_U2_scores, total_max_mean_conservations_vertebrates, total_max_mean_conservations_primates, min_P_ME, total_ME = row   #, true_ME, score, is_annotated = row
 
 		for SJ in total_SJs.split(","):
 
 			SJ_Tag_seq = SJ_Tags_seq[SJ]
 			up_block, down_block =  SJ_Tags_info[SJ].split("|")[-1].split("_")
 
-			ME_Tag_ID = "|".join(SJ_Tags_info[SJ].split("|")[:-1] + ["_".join([up_block, len_micro_exon_seq_found, down_block])] )
+			ME_Tag_ID = "|".join(SJ_Tags_info[SJ].split("|")[:-1] + ["_".join([up_block, micro_exon_seq_found, down_block])] )
 			ME_Tag_seq = SJ_Tag_seq[:int(up_block)] + micro_exon_seq_found + SJ_Tag_seq[int(up_block):] 		
 
 			print ">" + ME_Tag_ID

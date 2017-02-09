@@ -5,8 +5,9 @@ import re
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
-import wWigIO
 import numpy as np
+#import  wWigIO - This was the original library that was implemented.
+import pyBigWig
 
 
 flag_dict = {'73':[1,1], '89':[1,1], '121':[1,-1], '153':[-1,-1], '185':[-1,-1], '137':[-1,1], '99':[1,1], '147':[-1,-1], '83':[1,-1], '163':[-1,1], '67':[1,1], '115':[1,-1], '179':[-1,-1], '81':[1,-1], "161":[-1,1], '97':[1,1], '145':[-1,-1], '65':[1,1], '129':[-1,1], '113':[1,-1], '177':[-1,-1] }
@@ -94,10 +95,17 @@ def PWM_to_dict(file):
 	return matrix
 
 
-def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_primates):
+#def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_primates): 
 
-	wWigIO.open(phylop_vertebrates)
-	wWigIO.open(phylop_primates)
+
+def main(row_ME, reads_genome, U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrates, phylop_primates): #no repbase
+
+
+	# wWigIO.open(phylop_vertebrates)
+	# wWigIO.open(phylop_primates)
+
+	phylop_vertebrates_bw = pyBigWig.open(phylop_vertebrates)
+	phylop_primates_bw = pyBigWig.open(phylop_primates)
 
 	U2_GTAG_5 = PWM_to_dict(U2_GTAG_5_file)
 	U2_GTAG_3 = PWM_to_dict(U2_GTAG_3_file)
@@ -117,13 +125,13 @@ def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, ph
 	black_list = set([])
 	exons_reads_genome = defaultdict(list)
 
-	for row in csv.reader(open(dust), delimiter = '>'):
+	# for row in csv.reader(open(dust), delimiter = '>'):
 
-		black_list.add(row[1])
+	# 	black_list.add(row[1])
 
-	for row in csv.reader(open(repbase), delimiter = '\t'):
+	# for row in csv.reader(open(repbase), delimiter = '\t'):
 
-		black_list.add(row[9])
+	# 	black_list.add(row[9])
 
 	forward = "Rd1"
 
@@ -287,40 +295,53 @@ def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, ph
 
 		for i in micro_exons:
 
-			mean_conservation_vertebrates = 0
-			mean_conservation_primates = 0
+			# mean_conservation_vertebrates = 0
+			# mean_conservation_primates = 0
 
 			ME_chr, ME_strand, ME_start, ME_end = i
 
 			ME_start = int(ME_start)
 			ME_end = int(ME_end)
-			conservation_vertebrates = wWigIO.getIntervals(phylop_vertebrates, ME_chr, ME_start-2, ME_end+2)
-			conservation_primates = wWigIO.getIntervals(phylop_primates, ME_chr, ME_start-2, ME_end+2)
+			# conservation_vertebrates = wWigIO.getIntervals(phylop_vertebrates, ME_chr, ME_start-2, ME_end+2)
+			# conservation_primates = wWigIO.getIntervals(phylop_primates, ME_chr, ME_start-2, ME_end+2)
+
+
+			# for i in conservation_vertebrates:
+
+			# 	mean_conservation_vertebrates += i[2]
+
+			# try:
+
+			# 	mean_conservation_vertebrates = mean_conservation_vertebrates/len(conservation_vertebrates)
+
+			# except ZeroDivisionError:
+			# 	pass
 
 			
+			# for i in conservation_primates:
 
-			for i in conservation_vertebrates:
+			# 	mean_conservation_primates += i[2]
 
-				mean_conservation_vertebrates += i[2]
+			# try:
 
-			try:
+			# 	mean_conservation_primates = mean_conservation_primates/len(conservation_primates)
 
-				mean_conservation_vertebrates = mean_conservation_vertebrates/len(conservation_vertebrates)
+			# except ZeroDivisionError:
+			# 	pass
 
-			except ZeroDivisionError:
-				pass
 
-			
-			for i in conservation_primates:
+			mean_conservation_vertebrates= phylop_vertebrates_bw.stats(ME_chr, ME_start-2, ME_end+2, type="mean")[0]
+			mean_conservation_primates= phylop_primates_bw.stats(ME_chr, ME_start-2, ME_end+2, type="mean")[0]
 
-				mean_conservation_primates += i[2]
 
-			try:
+			if mean_conservation_vertebrates==None:
 
-				mean_conservation_primates = mean_conservation_primates/len(conservation_primates)
+				mean_conservation_vertebrates=0
 
-			except ZeroDivisionError:
-				pass
+			if mean_conservation_primates==None:
+
+				mean_conservation_primates=0
+
 
 
 			TOTAL_mean_conservation_vertebrates.append(mean_conservation_vertebrates)
@@ -379,7 +400,7 @@ def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, ph
 					if "_".join(map(str, [g_chr, g_strand, s, e])) in micro_exons_coords:
 
 						same_ME = True
-
+#
 
 				if same_ME:
 					print read, seq, qual, tag_alingment, t_score, genome_alingment, g_score, same_ME, len(DR_corrected_micro_exon_seq_found), DR_corrected_micro_exon_seq_found, len(micro_exons), max(U2_scores), max(TOTAL_mean_conservation_vertebrates), max(TOTAL_mean_conservation_primates), micro_exons_coords, ",".join(map(str, U2_scores)), ",".join(map(str, TOTAL_mean_conservation_vertebrates)), ",".join(map(str, TOTAL_mean_conservation_primates))
@@ -394,8 +415,8 @@ def main(row_ME, reads_genome, dust, repbase, U2_GTAG_5_file, U2_GTAG_3_file, ph
 
 if __name__ == '__main__':
 	Genomictabulator(sys.argv[1])	
-	main(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9] )
-
+	#main(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9] )
+	main(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7] ) #no repbase - no dust
 
 #python ~/my_src/ME/Pipeline/ME_filter1.py _clip10.trim.sam.row_ME _clip10.trim.sam.row_ME.hg19.sam _clip10.trim.sam.row_ME.fastq.dust _clip10.trim.sam.row_ME.fastq.Repbase
 
