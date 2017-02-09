@@ -15,5 +15,4 @@ def main(bedGraph):
 
 
 if __name__ == '__main__':
-	Tagloader(sys.argv[1])
 	main(sys.argv[2])	
