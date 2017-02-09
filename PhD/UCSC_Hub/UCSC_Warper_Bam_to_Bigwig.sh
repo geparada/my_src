@@ -37,23 +37,23 @@
 
 #All the variables values have to be strings, that is mean that they have to be within " "
 
-Lab="Miska"
-Project="EMB4_branch1"
-Owner="Alper"
-email="aa747@cam.ac.uk"
+Lab="Teichmann"
+Project="PV"
+Owner="Xiuwei"
+email="zhangxiuwei03@gmail.com"
 
 
 #Only one genome per project is suported
 #Use UCSC genome names
 
-Genome="ce10"
+Genome="mm10"
 
 #Do not finish path with /
 #Use absolute paths
 
-input_dir="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub"
-output_dir="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub"
-index="/Users/gp7/Google_Drive/Manuscripts/Akay_2016_emb4/UCSC_hub/index.txt"
+input_dir="/homes/xiuweiz/public_html/bam_files"
+output_dir="/homes/xiuweiz/public_html/bam_files/UCSC"
+index="/homes/xiuweiz/public_html/bam_files/UCSC/index.txt"
 
 #HTTP server info
 #FTP it is slower, do not use it
@@ -221,7 +221,12 @@ then
 
 
 			awk '$1!="sensor_piRNA_mjIs144"' $Type/Temp/$name.bedGraph > $Type/Temp/$name.bedGraph.filter
-			bedGraphToBigWig $Type/Temp/$name.bedGraph.filter $Genome.chromsizes $Type/Temp/$name.bw
+
+			python ~/my_src/PhD/UCSC_Hub/normalize_bw.py $Type/Temp/$name.bedGraph.filter > $Type/Temp/$name.bedGraph.filter.norm
+
+			bedGraphToBigWig $Type/Temp/$name.bedGraph.filter.norm $Genome.chromsizes $Type/Temp/$name.bw
+
+
 
 			#bedGraphToBigWig $Type/Temp/$name.bedGraph $Genome.chromsizes $Type/Temp/$name.bw
 			
