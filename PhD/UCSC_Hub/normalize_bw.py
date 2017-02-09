@@ -14,7 +14,7 @@ def main(bedGraph):
 
 	 	normalised_count = str((count/total_count)*10**6)
 
-	 	print "\t".join(chrom, start, end, normalised_count)
+	 	print "\t".join([chrom, start, end, normalised_count])
 
 
 
