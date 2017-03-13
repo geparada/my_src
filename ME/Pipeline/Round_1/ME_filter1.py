@@ -75,6 +75,7 @@ def PWM_to_dict(file):
 	C_frec = []
 	G_frec = []
 	T_frec = []
+	N_freq = []
 	
 	for row in reader:
 		A = row[header_dict["A"]]
@@ -86,11 +87,13 @@ def PWM_to_dict(file):
 		C_frec.append(float(C))
 		G_frec.append(float(G))
 		T_frec.append(float(T))
+		N_freq.append(0)
 			
 	matrix["A"] = A_frec
 	matrix["C"] = C_frec
 	matrix["G"] = G_frec
 	matrix["T"] = T_frec
+	matrix["N"] = N_freq
 	
 	return matrix
 
@@ -266,6 +269,8 @@ def main(row_ME, reads_genome, U2_GTAG_5_file, U2_GTAG_3_file, phylop_vertebrate
 				cigar_vars.append((c, int(aux_str)))
 				aux_str = ''
 
+
+		var_index = 0		
 
 		for var in cigar_vars:
 			var_type = var[0]

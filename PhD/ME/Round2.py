@@ -5,29 +5,29 @@
 #############################################################################
 
 
-TAGs="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/ME/Round1/mm10.ME_TAGs.fa"
-TAGs_round2="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/ME/Round2/mm10.ME_TAGs.round1-2.fa"
+TAGs="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/ME/Round1/mm10.ME_TAGs.fa"
+TAGs_round2="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/ME/Round2/mm10.ME_TAGs.round1-2.fa"
 
-Genome_index="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/mm10_STAR_build"
+Genome_index="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/mm10_STAR_build"
 
-Genome="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/mm10.fa"
+Genome="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/mm10.fa"
 
 Genome_name="mm10"
 
 
-GT_AG_U2_5="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/Tracks/SpliceRack/mm10_GT_AG_U2_5.good.matrix"
-GT_AG_U2_3="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/Tracks/SpliceRack/mm10_GT_AG_U2_3.good.matrix"
+GT_AG_U2_5="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/Tracks/SpliceRack/mm10_GT_AG_U2_5.good.matrix"
+GT_AG_U2_3="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/Tracks/SpliceRack/mm10_GT_AG_U2_3.good.matrix"
 
-vertebrates_phylop="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/Tracks/Phylop/mm10.60way.phyloP60way.bw"
-close_phylop="/lustre/scratch108/compgen/team218/gp7/Genome/mm10/Tracks/Phylop/mm10.60way.phyloP60wayPlacental.bw"
+vertebrates_phylop="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/Tracks/Phylop/mm10.60way.phyloP60way.bw"
+close_phylop="/lustre/scratch117/cellgen/team218/gp7/Genome/mm10/Tracks/Phylop/mm10.60way.phyloP60wayPlacental.bw"
 
-Gene_anontation_bed12="/lustre/scratch108/compgen/team218/gp7/Genome/hg19/Tracks/Gene_annotation/gencode.v19.chr_patch_hapl_scaff.annotation.bed12"
+Gene_anontation_bed12="/lustre/scratch117/cellgen/team218/gp7/Genome/hg19/Tracks/Gene_annotation/gencode.v19.chr_patch_hapl_scaff.annotation.bed12"
 
 
 # mkdir -p Round2
 
 
-cd /lustre/scratch108/compgen/team218/gp7/Micro-exons/Mouse_ENCODE/Round2
+cd /lustre/scratch117/cellgen/team218/gp7/Micro-exons/Mouse_ENCODE/Round2
 
 # python ~/my_src/ME/Pipeline/Round_2/Micro_exons_tags.py $TAGs ../Round1/TOTAL.sam.row_ME.filter1.ME_centric.MEs_gencode.filter2.filter3 > TOTAL.sam.row_ME.filter1.ME_centric.MEs_gencode.filter2.filter3.ME_tags.fa
 # cat TOTAL.sam.row_ME.filter1.ME_centric.MEs_gencode.filter2.filter3.ME_tags.fa $TAGs> ME_canonical_SJ_tags.fa
